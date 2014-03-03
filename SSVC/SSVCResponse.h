@@ -8,9 +8,16 @@
 
 #import <Foundation/Foundation.h>
 
-@interface SSVCResponse : NSObject
+@interface SSVCResponse : NSObject<NSCoding>
 
 @property (nonatomic, assign, readonly) BOOL updateAvailable;
 @property (nonatomic, assign, readonly) BOOL updateRequired;
+@property (nonatomic, strong, readonly) NSString *versionKey;
+@property (nonatomic, assign, readonly) NSNumber *versionNumber;
+
+- (id)initWithUpdateAvailable:(BOOL)updateAvailable
+               updateRequired:(BOOL)updateRequired
+             latestVersionKey:(NSString *)versionKey
+          latestVersionNumber:(NSNumber *)versionNumber;
 
 @end

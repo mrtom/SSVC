@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		452F367418C51BCC001EE399 /* SSVCScheduler.m in Sources */ = {isa = PBXBuildFile; fileRef = 452F367318C51BCC001EE399 /* SSVCScheduler.m */; };
+		452F369318C53041001EE399 /* SSVCResponse.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4540F36618C4746B00BA7575 /* SSVCResponse.h */; };
+		452F369418C53041001EE399 /* SSVCScheduler.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 452F367218C51BCC001EE399 /* SSVCScheduler.h */; };
+		452F369518C53041001EE399 /* SSVCURLConnection.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4540F36918C49ADA00BA7575 /* SSVCURLConnection.h */; };
 		4540F34118C46CAF00BA7575 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4540F34018C46CAF00BA7575 /* Foundation.framework */; };
 		4540F34618C46CAF00BA7575 /* SSVC.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4540F34518C46CAF00BA7575 /* SSVC.h */; };
 		4540F34818C46CAF00BA7575 /* SSVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4540F34718C46CAF00BA7575 /* SSVC.m */; };
@@ -17,6 +21,7 @@
 		4540F35B18C46CAF00BA7575 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4540F35918C46CAF00BA7575 /* InfoPlist.strings */; };
 		4540F35D18C46CAF00BA7575 /* SSVCTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4540F35C18C46CAF00BA7575 /* SSVCTests.m */; };
 		4540F36818C4746B00BA7575 /* SSVCResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 4540F36718C4746B00BA7575 /* SSVCResponse.m */; };
+		4540F36B18C49ADA00BA7575 /* SSVCURLConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 4540F36A18C49ADA00BA7575 /* SSVCURLConnection.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +41,9 @@
 			dstPath = "include/$(PRODUCT_NAME)";
 			dstSubfolderSpec = 16;
 			files = (
+				452F369318C53041001EE399 /* SSVCResponse.h in CopyFiles */,
+				452F369418C53041001EE399 /* SSVCScheduler.h in CopyFiles */,
+				452F369518C53041001EE399 /* SSVCURLConnection.h in CopyFiles */,
 				4540F34618C46CAF00BA7575 /* SSVC.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -43,6 +51,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		452F367218C51BCC001EE399 /* SSVCScheduler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSVCScheduler.h; sourceTree = "<group>"; };
+		452F367318C51BCC001EE399 /* SSVCScheduler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSVCScheduler.m; sourceTree = "<group>"; };
+		452F367518C51E25001EE399 /* SSVCSchedulerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SSVCSchedulerDelegate.h; sourceTree = "<group>"; };
 		4540F33D18C46CAF00BA7575 /* libSSVC.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSSVC.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		4540F34018C46CAF00BA7575 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		4540F34418C46CAF00BA7575 /* SSVC-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SSVC-Prefix.pch"; sourceTree = "<group>"; };
@@ -56,6 +67,8 @@
 		4540F35C18C46CAF00BA7575 /* SSVCTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SSVCTests.m; sourceTree = "<group>"; };
 		4540F36618C4746B00BA7575 /* SSVCResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSVCResponse.h; sourceTree = "<group>"; };
 		4540F36718C4746B00BA7575 /* SSVCResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSVCResponse.m; sourceTree = "<group>"; };
+		4540F36918C49ADA00BA7575 /* SSVCURLConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSVCURLConnection.h; sourceTree = "<group>"; };
+		4540F36A18C49ADA00BA7575 /* SSVCURLConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSVCURLConnection.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,6 +130,11 @@
 				4540F34718C46CAF00BA7575 /* SSVC.m */,
 				4540F36618C4746B00BA7575 /* SSVCResponse.h */,
 				4540F36718C4746B00BA7575 /* SSVCResponse.m */,
+				452F367518C51E25001EE399 /* SSVCSchedulerDelegate.h */,
+				452F367218C51BCC001EE399 /* SSVCScheduler.h */,
+				452F367318C51BCC001EE399 /* SSVCScheduler.m */,
+				4540F36918C49ADA00BA7575 /* SSVCURLConnection.h */,
+				4540F36A18C49ADA00BA7575 /* SSVCURLConnection.m */,
 				4540F34318C46CAF00BA7575 /* Supporting Files */,
 			);
 			path = SSVC;
@@ -229,7 +247,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				452F367418C51BCC001EE399 /* SSVCScheduler.m in Sources */,
 				4540F34818C46CAF00BA7575 /* SSVC.m in Sources */,
+				4540F36B18C49ADA00BA7575 /* SSVCURLConnection.m in Sources */,
 				4540F36818C4746B00BA7575 /* SSVCResponse.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
