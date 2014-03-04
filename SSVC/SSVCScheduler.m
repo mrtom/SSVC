@@ -25,7 +25,7 @@ static const NSTimeInterval kSecondsPerWeek = 7 * kSecondsPerDay;
 
 - (id)init
 {
-  return [self initWithPeriod:SSVCSchedulerScheduleDaily];
+  return [self initWithPeriod:SSVCSchedulerDoNotSchedule];
 }
 
 - (id)initWithPeriod:(SSVCSchedulerRunPeriod)period

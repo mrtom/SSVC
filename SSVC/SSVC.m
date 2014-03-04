@@ -51,10 +51,9 @@ static NSString *const kSSVCResponseFromLastVersionCheck = @"SSVCResponseFromLas
   if (!kSSVCDefaultLatestVersionNumber) kSSVCDefaultLatestVersionNumber = @0;
 }
 
-- (id)init{
-  @throw [NSException exceptionWithName:NSInternalInconsistencyException
-                                 reason:@"Must use initWithCompletionHandler: failureHandler: instead"
-                               userInfo:nil];
+- (id)init
+{
+  return [self initWithCompletionHandler:nil failureHandler:nil];
 }
 
 - (id)initWithCompletionHandler:(ssvc_fetch_success_block_t)success
