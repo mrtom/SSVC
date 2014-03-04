@@ -23,9 +23,7 @@ NSString *const SSVCLatestVersionNumber = @"SSVCLatestVersionNumber";
 
 BOOL const kSSVCDefaultUpdateAvailable = NO;
 BOOL const kSSVCDefaultUpdateRequired = NO;
-NSDate *kSSVCDefaultUpdateAvailableSinceDate = nil;
 NSString *const kSSVCDefaultLatestVersionKey = @"0.0";
-NSNumber *kSSVCDefaultLatestVersionNumber = nil;
 
 NSString *const SSVCClientProtocolVersion = @"SSVCClientProtocolVersion";
 NSUInteger const SSVCClientProtocolVersionNumber = 1;
@@ -45,10 +43,17 @@ static NSString *const kSSVCResponseFromLastVersionCheck = @"SSVCResponseFromLas
 
 @implementation SSVC
 
-+ (void)initialize
++ (NSDictionary *)defaultObjectsDict
 {
-  if (!kSSVCDefaultUpdateAvailableSinceDate) kSSVCDefaultUpdateAvailableSinceDate = [NSDate distantPast];
-  if (!kSSVCDefaultLatestVersionNumber) kSSVCDefaultLatestVersionNumber = @0;
+  static NSDictionary *defaultDict = nil;
+  static dispatch_once_t onceToken;
+  dispatch_once(&onceToken, ^{
+    defaultDict = @{
+                    SSVCUpdateAvailableSince: [NSDate distantPast],
+                    SSVCLatestVersionNumber: @0
+                    };
+  });
+  return defaultDict;
 }
 
 - (id)init
@@ -130,6 +135,7 @@ static NSString *const kSSVCResponseFromLastVersionCheck = @"SSVCResponseFromLas
       
       [strongSelf __updateLastCheckDate:now];
       
+      NSDictionary *defaultsDict = [SSVC defaultObjectsDict];
       NSDictionary *json = [NSJSONSerialization JSONObjectWithData:responseData
                                                            options:kNilOptions
                                                              error:&error];
@@ -142,11 +148,11 @@ static NSString *const kSSVCResponseFromLastVersionCheck = @"SSVCResponseFromLas
       if (updateAvailableSinceTime) {
         updateAvailableSinceDate = [NSDate dateWithTimeIntervalSince1970:[updateAvailableSinceTime unsignedIntegerValue]];
       } else {
-        updateAvailableSinceDate = [NSDate distantPast];
+        updateAvailableSinceDate = defaultsDict[SSVCUpdateAvailableSince];
       }
       
-      NSString *latestVersionKey = json[SSVCLatestVersionKey] ?: @"";
-      NSNumber *latestVersionNumber = json[SSVCLatestVersionNumber] ?: @0;
+      NSString *latestVersionKey = json[SSVCLatestVersionKey] ?: kSSVCDefaultLatestVersionKey;
+      NSNumber *latestVersionNumber = json[SSVCLatestVersionNumber] ?: defaultsDict[SSVCLatestVersionNumber];
       
       SSVCResponse *response = [[SSVCResponse alloc] initWithUpdateAvailable:updateAvailable
                                                               updateRequired:updateRequired
