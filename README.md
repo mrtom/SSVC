@@ -68,19 +68,45 @@ SSVC expects your server to return a simple JSON object, with the following form
 ### SSVCResponse
 Once SSVC has received the response from your server, it constructs an ```SSVCResponse``` object. This object wraps up the JSON response in a more friendly Objective-C API, and saves it to disk using ```NSUserDefaults```, under the key ```SSVCResponseFromLastVersionCheck```. This probably isn't the simplest way of accessing the response - see 'Customising Usage' below for more information on how to register for updates when a new response is available.
 
+An ```SSVCResponse``` objects contains the following (read only) properties, mapping to the fields in the JSON response above:
+
+| Name | Type |
+| ---- | ---- |
+| updateAvailable | ```BOOL``` |
+| updateRequired  | ```BOOL``` |
+| updateAvailableSince | ```NSDate *``` |
+| latestVersionKey | ```NSString *``` |
+| latestVersionNumber | ```NSNumber``` |
+
 Like SSVC objects, instances of SSVCResponse are immutable (and thus threadsafe), so you can pass them around as much as you like. They also conform to the ```<NSCoding>``` protocol, so you can archive them easily.
 
 ## Customising Usage
 
 There are a number of additional initialiser methods you can use to help customise behaviour of SSVC. For example, you can pass an ```NSString *``` as the URL for your server rather than adding it to the plist. Other configuration options include:
 
-#### Registering for callbacks when SSVC succeeds or fails to fetch the latest version information:
-// TODO
+#### Registering for callbacks
+
+You can request callbacks from SSVC whenever it succeeds (and fails) to receive updates, using the initialiser
+
+```
+- (id)initWithCompletionHandler:(ssvc_fetch_success_block_t)success
+                 failureHandler:(ssvc_fetch_failure_block_t)failure;
+```
+
+The success block will be passed an instance of ```SSVCResponse```, and the failure block is passed an instance of ```NSError```. The success block is guaranteed to be run on the main thread. However, please note this is not true for the failure block. (Why? See the FAQ).
 
 #### Scheduling regular version checks using ```SSVCScheduler```:
-// TODO
+```SSVCScheduler``` instances instruct SSVC how often to automatically schedule version checks. You pass it's initialiser a typed enum, ```SSVCSchedulerRunPeriod``` detailing the schedule period, from the following options:
 
-* ```
+* ```SSVCSchedulerDoNotSchedule``` - Do not schedule regular checks
+* ```SSVCSchedulerScheduleHourly``` - Check once per hour
+* ```SSVCSchedulerScheduleDaily``` - Check once per day
+* ```SSVCSchedulerScheduleWeekly``` - Check once per week
+* ```SSVCSchedulerScheduleMonthly``` - Check once per month
+
+The checks only occur if the app is running. When you initialise an ```SSVC``` object, it checks when the last version check was performed and schedules an update accordingly. Thus, if the app ins't running at the time the check should be made, your App will simply make the check the next time it is launched (and an ```SSVC``` object created).
+
+If you want to schedule a more complex update strategy, you should use ```NSTimer``` (or something similar) and call ```[SSVC checkVersion]``` at the appropriate time.
 
 ## FAQ:
 
@@ -92,3 +118,21 @@ As far as I know there aren't any open APIs where this information can be retrie
 
 ### Why don't you support CocoaPods?
 Firstly, because I haven't had the time yet. And secondly, because I don't use it myself. If you want CocoaPods support, let me know and I'm more likely to get around to it - or send me a diff! :)
+
+### Why do you insist on calling the success block on the main thread?
+For the most part, I anticipate developers will want to invoke some sort of UI change when the update checker indicates an update is available. As UIKit isn't threadsafe, such updates need to be performed on the main thread.
+
+I think it makes sense to assume some consumers of SSVC don't want to worry about which thread their code runs on, so forcing the success block to run on the main thread minimises effort for the general case. And if you're doing something complicated enough that you know you want to use another thread/queue, you probably already know both how to do this, and which queue you want your success block run on.
+
+### Why don't you call the failure block on the main thread?
+Failing to receive a response from your version checker is unlikely to warrent a using facing/UI altering error. I suspect in most cases a developer may want to log this and move on, or perhaps just ignore this failure case altogether. In which case, performing the block on the main thread is potentially wasteful. If you do require this, however, it's simple enough. Just wrap the contents of your block GCD queue on the main thread, thus:
+
+```objc
+dispatch_queue_t q = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0);
+dispatch_async(q, ^{
+  // Your code here
+});
+```
+
+
+```
