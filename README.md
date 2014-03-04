@@ -125,11 +125,11 @@ For the most part, I anticipate developers will want to invoke some sort of UI c
 I think it makes sense to assume some consumers of SSVC don't want to worry about which thread their code runs on, so forcing the success block to run on the main thread minimises effort for the general case. And if you're doing something complicated enough that you know you want to use another thread/queue, you probably already know both how to do this, and which queue you want your success block run on.
 
 ### Why don't you call the failure block on the main thread?
-Failing to receive a response from your version checker is unlikely to warrent a using facing/UI altering error. I suspect in most cases a developer may want to log this and move on, or perhaps just ignore this failure case altogether. In which case, performing the block on the main thread is potentially wasteful. If you do require this, however, it's simple enough. Just wrap the contents of your block GCD queue on the main thread, thus:
+Failing to receive a response from your version checker is unlikely to warrent a using facing/UI altering error. I suspect in most cases a developer may want to log this and move on, or perhaps just ignore this failure case altogether. In which case, performing the block on the main thread is potentially wasteful. If you do require this, however, it's simple enough. Just wrap the contents of your block in a GCD queue for the main thread, thus:
 
 ```objc
-dispatch_queue_t q = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0);
-dispatch_async(q, ^{
+dispatch_queue_t mainQ = dispatch_get_main_queue();
+dispatch_async(mainQ, ^{
   // Your code here
 });
 ```
