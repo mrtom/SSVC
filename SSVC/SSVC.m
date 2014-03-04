@@ -131,12 +131,16 @@ static NSString *const kSSVCResponseFromLastVersionCheck = @"SSVCResponseFromLas
     [userDefaults setObject:archivedResponse forKey:kSSVCResponseFromLastVersionCheck];
     
     if (error) {
-      if (_failure) {
-        _failure(error);
+      if (self.failure) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+          self.failure(error);
+        });
       }
     } else {
-      if (_success) {
-        _success(response);
+      if (weakSelf.success) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+          weakSelf.success(response);
+        });
       }
     }
     
@@ -144,7 +148,11 @@ static NSString *const kSSVCResponseFromLastVersionCheck = @"SSVCResponseFromLas
   };
   urlConnection.onError = ^(NSError *error){
     [weakSelf __updateLastCheckDate:[NSDate date]];
-    if (_failure) _failure(error);
+    if (weakSelf.failure) {
+      dispatch_async(dispatch_get_main_queue(), ^{
+        weakSelf.failure(error);
+      });
+    }
     
     [_scheduler startSchedulingWithLastVersionDateCheck:[self __lastVersionCheckDateFromUserDefaults]];
   };
@@ -203,7 +211,10 @@ static NSString *const kSSVCResponseFromLastVersionCheck = @"SSVCResponseFromLas
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
-  ((SSVCURLConnection *)connection).onComplete();
+  dispatch_queue_t q = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0);
+  dispatch_async(q, ^{
+    ((SSVCURLConnection *)connection).onComplete();
+  });
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {

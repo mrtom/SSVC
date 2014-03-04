@@ -13,7 +13,7 @@
 @class SSVCResponse;
 
 typedef void (^ssvc_fetch_success_block_t)(SSVCResponse *response);
-typedef void (^ssvc_fetch_failure_block_t)(NSError * error);
+typedef void (^ssvc_fetch_failure_block_t)(NSError *error);
 
 extern NSString *const SSVCCallbackURLKey;
 extern NSString *const SSVCDateOfLastVersionCheck;
