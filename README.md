@@ -6,8 +6,8 @@ SSVC is a simple version checking client for iOS. It connects to a server you de
 ## Installation
 
 * Download the project from Github (https://github.com/mrtom/SSVC), and unzip
-* Copy ````SSVC.xcodeproj``` into the 'frameworks' folder within Xcode for your project
-* Link libSSVC.a to your project:
+* Copy ```SSVC.xcodeproj``` into the 'frameworks' folder within Xcode for your project
+* Link ```libSSVC.a``` to your project:
     * Select your main project in Xcode (usually at the top)
     * Select your target
     * Click 'Build Phases'
@@ -18,7 +18,7 @@ SSVC is a simple version checking client for iOS. It connects to a server you de
 
 The primary class of SSVC is called... SSVC! For the most basic usage:
 
-* Add the URL of your server to your main plist file. Use the key "SSVCCallbackURL" and a URL string. This URL must be fully qualified and may contain GET parameters.
+* Add the URL of your server to your main plist file. Use the key ```SSVCCallbackURL``` and a URL for the value. This URL must be fully qualified and may contain GET parameters.
 
 * Import SSVC into your root view controller:
 
@@ -26,21 +26,21 @@ The primary class of SSVC is called... SSVC! For the most basic usage:
     #import <SSVC/SSVC.h>
 ```
 
-* Create a basic instance of the view checker object:
+* Create a basic instance of the view checker object somewhere, for example in your designated initialiser:
 
 ```objc
     SSVC *viewChecker = [SSVC new];
 ```
 
-* Call ```'checkVersion:```':
+* Call ```checkVersion:```:
 
 ```objc
   [viewChecker checkVersion];
 ```
 
-* This will cause SSVC to send an HTTP GET request to the server you specified above with the follow parameters:
-    * SSVCLatestVersionKey - The version key of your application, i.e. 1.0
-    * SSVCLatestVersionNumber - The vesrion (build) number of your application, i.e. 4354667
+* This will cause SSVC to send an HTTP GET request to the server you specified above with the following parameters:
+    * SSVCLatestVersionKey - The version key of the application currently running, i.e. 1.0
+    * SSVCLatestVersionNumber - The vesrion (build) number of the application currently running, i.e. 16809984
     * SSVCClientProtocolVersion - The version of the protocol used by SSVC, currently 1
 
 SSVC expects your server to return a simple JSON object, with the following format. Note, all fields are optional:
@@ -74,10 +74,10 @@ Like SSVC objects, instances of SSVCResponse are immutable (and thus threadsafe)
 
 There are a number of additional initialiser methods you can use to help customise behaviour of SSVC. For example, you can pass an ```NSString *``` as the URL for your server rather than adding it to the plist. Other configuration options include:
 
-### Registering for callbacks when SSVC succeeds or fails to fetch the latest version information:
+#### Registering for callbacks when SSVC succeeds or fails to fetch the latest version information:
 // TODO
 
-### Scheduling regular version checks using ```SSVCScheduler```:
+#### Scheduling regular version checks using ```SSVCScheduler```:
 // TODO
 
 * ```
