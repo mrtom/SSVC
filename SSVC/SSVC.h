@@ -23,6 +23,8 @@ extern NSString *const SSVCUpdateRequired;
 extern NSString *const SSVCLatestVersionKey;
 extern NSString *const SSVCLatestVersionNumber;
 
+extern NSString *const SSVCResponseFromLastVersionCheck;
+
 @interface SSVC : NSObject
 
 @property (nonatomic, strong, readonly) NSString *callbackURL;

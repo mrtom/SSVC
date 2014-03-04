@@ -13,7 +13,7 @@
 #import "SSVCURLConnection.h"
 
 // Names for keys
-NSString *const SSVCCallbackURLKey = @"SSVCCallbackURL";
+NSString *const SSVCCallbackURLKey = @"SSVCCallbackURLKey";
 NSString *const SSVCDateOfLastVersionCheck = @"SSVCDateOfLastVersionCheck";
 NSString *const SSVCUpdateAvailable = @"SSVCUpdateAvailable";
 NSString *const SSVCUpdateRequired = @"SSVCUpdateRequired";
@@ -21,14 +21,14 @@ NSString *const SSVCUpdateAvailableSince = @"SSVCUpdateAvailableSince";
 NSString *const SSVCLatestVersionKey = @"SSVCLatestVersionKey";
 NSString *const SSVCLatestVersionNumber = @"SSVCLatestVersionNumber";
 
+NSString *const SSVCResponseFromLastVersionCheck = @"SSVCResponseFromLastVersionCheck";
+
 BOOL const kSSVCDefaultUpdateAvailable = NO;
 BOOL const kSSVCDefaultUpdateRequired = NO;
-NSString *const kSSVCDefaultLatestVersionKey = @"0.0";
+NSString *const kSSVCDefaultLatestVersionKey = @"0.0.0";
 
 NSString *const SSVCClientProtocolVersion = @"SSVCClientProtocolVersion";
 NSUInteger const SSVCClientProtocolVersionNumber = 1;
-
-static NSString *const kSSVCResponseFromLastVersionCheck = @"SSVCResponseFromLastVersionCheck";
 
 @interface SSVC() <NSURLConnectionDataDelegate, SSVCSchedulerDelegate>
 
@@ -164,7 +164,7 @@ static NSString *const kSSVCResponseFromLastVersionCheck = @"SSVCResponseFromLas
       NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
       [userDefaults setObject:now forKey:SSVCDateOfLastVersionCheck];
       NSData *archivedResponse = [NSKeyedArchiver archivedDataWithRootObject:response];
-      [userDefaults setObject:archivedResponse forKey:kSSVCResponseFromLastVersionCheck];
+      [userDefaults setObject:archivedResponse forKey:SSVCResponseFromLastVersionCheck];
       
       if (error) {
         if (self.failure) {
@@ -203,7 +203,7 @@ static NSString *const kSSVCResponseFromLastVersionCheck = @"SSVCResponseFromLas
 - (SSVCResponse *)lastResponse
 {
   NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-  return (SSVCResponse *)[userDefaults objectForKey:kSSVCResponseFromLastVersionCheck];
+  return (SSVCResponse *)[userDefaults objectForKey:SSVCResponseFromLastVersionCheck];
 }
 
 #pragma mark - Private instance methods
