@@ -12,12 +12,20 @@
 #import "SSVCSchedulerDelegate.h"
 #import "SSVCURLConnection.h"
 
+// Names for keys
 NSString *const SSVCCallbackURLKey = @"SSVCCallbackURLKey";
 NSString *const SSVCDateOfLastVersionCheck = @"SSVCDateOfLastVersionCheck";
 NSString *const SSVCUpdateAvailable = @"SSVCUpdateAvailable";
 NSString *const SSVCUpdateRequired = @"SSVCUpdateRequired";
+NSString *const SSVCUpdateAvailableSince = @"SSVCUpdateAvailableSince";
 NSString *const SSVCLatestVersionKey = @"SSVCLatestVersionKey";
 NSString *const SSVCLatestVersionNumber = @"SSVCLatestVersionNumber";
+
+BOOL const kSSVCDefaultUpdateAvailable = NO;
+BOOL const kSSVCDefaultUpdateRequired = NO;
+NSDate *kSSVCDefaultUpdateAvailableSinceDate = nil;
+NSString *const kSSVCDefaultLatestVersionKey = @"0.0";
+NSNumber *kSSVCDefaultLatestVersionNumber = nil;
 
 NSString *const SSVCClientProtocolVersion = @"SSVCClientProtocolVersion";
 NSUInteger const SSVCClientProtocolVersionNumber = 1;
@@ -26,16 +34,22 @@ static NSString *const kSSVCResponseFromLastVersionCheck = @"SSVCResponseFromLas
 
 @interface SSVC() <NSURLConnectionDataDelegate, SSVCSchedulerDelegate>
 
-@property (nonatomic, strong, readonly) SSVCScheduler *scheduler;
-@property (nonatomic, assign, readonly) ssvc_fetch_success_block_t success;
-@property (nonatomic, assign, readonly) ssvc_fetch_failure_block_t failure;
+@property (nonatomic, copy, readonly) SSVCScheduler *scheduler;
+@property (nonatomic, copy, readonly) ssvc_fetch_success_block_t success;
+@property (nonatomic, copy, readonly) ssvc_fetch_failure_block_t failure;
 
-@property (nonatomic, strong, readonly) NSString *versionKey;
-@property (nonatomic, assign, readonly) NSNumber *versionNumber;
+@property (nonatomic, copy, readonly) NSString *versionKey;
+@property (nonatomic, copy, readonly) NSNumber *versionNumber;
 
 @end
 
 @implementation SSVC
+
++ (void)initialize
+{
+  if (!kSSVCDefaultUpdateAvailableSinceDate) kSSVCDefaultUpdateAvailableSinceDate = [NSDate distantPast];
+  if (!kSSVCDefaultLatestVersionNumber) kSSVCDefaultLatestVersionNumber = @0;
+}
 
 - (id)init{
   @throw [NSException exceptionWithName:NSInternalInconsistencyException
@@ -109,52 +123,73 @@ static NSString *const kSSVCResponseFromLastVersionCheck = @"SSVCResponseFromLas
   __weak SSVCURLConnection *weakConnection = urlConnection;
   __weak SSVC *weakSelf = self;
   urlConnection.onComplete = ^{
-    NSDate *now = [NSDate date];
-    NSError *error;
-    NSData *responseData = weakConnection.data;
-    
-    [weakSelf __updateLastCheckDate:now];
-    
-    NSDictionary *json = [NSJSONSerialization JSONObjectWithData:responseData
-                                                         options:kNilOptions
-                                                           error:&error];
-    
-    SSVCResponse *response = [[SSVCResponse alloc] initWithUpdateAvailable:[json[SSVCUpdateAvailable] boolValue]
-                                                            updateRequired:[json[SSVCUpdateRequired] boolValue]
-                                                          latestVersionKey:json[SSVCLatestVersionKey]
-                                                       latestVersionNumber:json[SSVCLatestVersionNumber]];
-    
-    // Set time of last check in NSUserDefaults
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults setObject:now forKey:SSVCDateOfLastVersionCheck];
-    NSData *archivedResponse = [NSKeyedArchiver archivedDataWithRootObject:response];
-    [userDefaults setObject:archivedResponse forKey:kSSVCResponseFromLastVersionCheck];
-    
-    if (error) {
-      if (self.failure) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-          self.failure(error);
-        });
+    SSVC *strongSelf = weakSelf;
+    if (strongSelf) {
+      NSDate *now = [NSDate date];
+      NSError *error;
+      NSData *responseData = weakConnection.data;
+      
+      [strongSelf __updateLastCheckDate:now];
+      
+      NSDictionary *json = [NSJSONSerialization JSONObjectWithData:responseData
+                                                           options:kNilOptions
+                                                             error:&error];
+      
+      BOOL updateAvailable = [json objectForKey:SSVCUpdateAvailable] ? [[json objectForKey:SSVCUpdateAvailable] boolValue] : kSSVCDefaultUpdateAvailable;
+      BOOL updateRequired = [json objectForKey:SSVCUpdateRequired] ? [[json objectForKey:SSVCUpdateRequired] boolValue] : kSSVCDefaultUpdateRequired;
+      
+      NSNumber *updateAvailableSinceTime = [json objectForKey:SSVCUpdateAvailableSince];
+      NSDate *updateAvailableSinceDate;
+      if (updateAvailableSinceTime) {
+        updateAvailableSinceDate = [NSDate dateWithTimeIntervalSince1970:[updateAvailableSinceTime unsignedIntegerValue]];
+      } else {
+        updateAvailableSinceDate = [NSDate distantPast];
       }
-    } else {
-      if (weakSelf.success) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-          weakSelf.success(response);
-        });
+      
+      NSString *latestVersionKey = json[SSVCLatestVersionKey] ?: @"";
+      NSNumber *latestVersionNumber = json[SSVCLatestVersionNumber] ?: @0;
+      
+      SSVCResponse *response = [[SSVCResponse alloc] initWithUpdateAvailable:updateAvailable
+                                                              updateRequired:updateRequired
+                                                        updateAvailableSince:updateAvailableSinceDate
+                                                            latestVersionKey:latestVersionKey
+                                                         latestVersionNumber:latestVersionNumber];
+      
+      // Set time of last check in NSUserDefaults
+      NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+      [userDefaults setObject:now forKey:SSVCDateOfLastVersionCheck];
+      NSData *archivedResponse = [NSKeyedArchiver archivedDataWithRootObject:response];
+      [userDefaults setObject:archivedResponse forKey:kSSVCResponseFromLastVersionCheck];
+      
+      if (error) {
+        if (self.failure) {
+          dispatch_async(dispatch_get_main_queue(), ^{
+            self.failure(error);
+          });
+        }
+      } else {
+        if (strongSelf.success) {
+          dispatch_async(dispatch_get_main_queue(), ^{
+            strongSelf.success(response);
+          });
+        }
       }
+      
+      [_scheduler startSchedulingWithLastVersionDateCheck:[self __lastVersionCheckDateFromUserDefaults]];      
     }
-    
-    [_scheduler startSchedulingWithLastVersionDateCheck:[self __lastVersionCheckDateFromUserDefaults]];
   };
   urlConnection.onError = ^(NSError *error){
-    [weakSelf __updateLastCheckDate:[NSDate date]];
-    if (weakSelf.failure) {
-      dispatch_async(dispatch_get_main_queue(), ^{
-        weakSelf.failure(error);
-      });
+    SSVC *strongSelf = weakSelf;
+    if (strongSelf) {
+      [strongSelf __updateLastCheckDate:[NSDate date]];
+      if (strongSelf.failure) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+          strongSelf.failure(error);
+        });
+      }
+      
+      [_scheduler startSchedulingWithLastVersionDateCheck:[self __lastVersionCheckDateFromUserDefaults]];
     }
-    
-    [_scheduler startSchedulingWithLastVersionDateCheck:[self __lastVersionCheckDateFromUserDefaults]];
   };
   
   [urlConnection start];
@@ -188,7 +223,7 @@ static NSString *const kSSVCResponseFromLastVersionCheck = @"SSVCResponseFromLas
 
 - (void)__versionFromBundle
 {
-  CFStringRef ver = CFBundleGetValueForInfoDictionaryKey(
+  CFTypeRef ver = CFBundleGetValueForInfoDictionaryKey(
                                                          CFBundleGetMainBundle(),
                                                          kCFBundleVersionKey);
   _versionKey = (__bridge NSString *)ver;

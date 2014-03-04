@@ -18,6 +18,7 @@ typedef void (^ssvc_fetch_failure_block_t)(NSError *error);
 extern NSString *const SSVCCallbackURLKey;
 extern NSString *const SSVCDateOfLastVersionCheck;
 extern NSString *const SSVCUpdateAvailable;
+extern NSString *const SSVCUpdateAvailableSince;
 extern NSString *const SSVCUpdateRequired;
 extern NSString *const SSVCLatestVersionKey;
 extern NSString *const SSVCLatestVersionNumber;

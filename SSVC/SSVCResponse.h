@@ -12,11 +12,13 @@
 
 @property (nonatomic, assign, readonly) BOOL updateAvailable;
 @property (nonatomic, assign, readonly) BOOL updateRequired;
+@property (nonatomic, strong, readonly) NSDate *updateAvailableSince;
 @property (nonatomic, strong, readonly) NSString *versionKey;
-@property (nonatomic, assign, readonly) NSNumber *versionNumber;
+@property (nonatomic, strong, readonly) NSNumber *versionNumber;
 
 - (id)initWithUpdateAvailable:(BOOL)updateAvailable
                updateRequired:(BOOL)updateRequired
+         updateAvailableSince:(NSDate *)updateAvailableSince
              latestVersionKey:(NSString *)versionKey
           latestVersionNumber:(NSNumber *)versionNumber;
 
