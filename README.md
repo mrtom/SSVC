@@ -5,6 +5,15 @@ SSVC is a simple version checking client for iOS. It connects to a server you de
 
 ## Installation
 
+* Download the project from Github (https://github.com/mrtom/SSVC), and unzip
+* Copy ````SSVC.xcodeproj``` into the 'frameworks' folder within Xcode for your project
+* Link libSSVC.a to your project:
+    * Select your main project in Xcode (usually at the top)
+    * Select your target
+    * Click 'Build Phases'
+    * Click the + icon at the bottom of 'Link Binary With Libraries'
+    * Select 'libSSVC.a'
+
 ## Basic Usage
 
 The primary class of SSVC is called... SSVC! For the most basic usage:
@@ -41,18 +50,45 @@ SSVC expects your server to return a simple JSON object, with the following form
   "SSVCUpdateAvailable": 1,
   "SSVCUpdateRequired": 0,
   "SSVCUpdateAvailableSince": 1388750400,
-  "SSVCLatestVersionKey": "abcdefg",
-  "SSVCLatestVersionNumber": 2
+  "SSVCLatestVersionKey": "1.0",
+  "SSVCLatestVersionNumber": 16809984
  }
  ```
 
-### Definitions
+### JSON Response Definitions
 
-| Name | Description | Permitted Values | Required | Default |
-| ---- | ----------- | ---------------- | -------- | ------- |
-| SSVCUpdateAvailable | Is a more recent version of your application available? | 1 (Yes) or 0 (No) | No | |
-| SSVCUpdateRequired | Is the more recent version of your application a required update? For example, after a breaking change in your API | 1 (Yes) or 0 (No) | No | |
-| SSVCUpdateAvailableSince | The date since the most recent update was available, as an ISOxxx timestamp (i.e. seconds since the epoc, January 1st 1970 | No | |
+| Name | Description | Permitted Values/Type | Required | Default |
+| ---- | ----------- | --------------------- | -------- | ------- |
+| SSVCUpdateAvailable | Is a more recent version of your application available? | 1 (Yes) or 0 (No) | No | 0 |
+| SSVCUpdateRequired | Is the more recent version of your application a required update? For example, after a breaking change in your API | 1 (Yes) or 0 (No) | No | 0 |
+| SSVCUpdateAvailableSince | The date since the most recent update was available | Any valid Unix timestamp (i.e. seconds since the epoc, January 1st 1970, UTC - http://en.wikipedia.org/wiki/Unix_timestamp) | No | ```[NSDate distantPast]``` |
+| SSVCLatestVersionKey | The iOS Version Key for your latest build, as found in your App bundle | A string of the form X.Y.Z, for X = [0-99] and Y & Z = [0-9] | No | 0.0.0 |
+| SSVCLatestVersionNumber | The iOS Version Number for your latest build, as found in your App bundle | An Unsigned Integer | No | 0 |
 
+### SSVCResponse
+Once SSVC has received the response from your server, it constructs an ```SSVCResponse``` object. This object wraps up the JSON response in a more friendly Objective-C API, and saves it to disk using ```NSUserDefaults```, under the key ```SSVCResponseFromLastVersionCheck```. This probably isn't the simplest way of accessing the response - see 'Customising Usage' below for more information on how to register for updates when a new response is available.
+
+Like SSVC objects, instances of SSVCResponse are immutable (and thus threadsafe), so you can pass them around as much as you like. They also conform to the ```<NSCoding>``` protocol, so you can archive them easily.
 
 ## Customising Usage
+
+There are a number of additional initialiser methods you can use to help customise behaviour of SSVC. For example, you can pass an ```NSString *``` as the URL for your server rather than adding it to the plist. Other configuration options include:
+
+### Registering for callbacks when SSVC succeeds or fails to fetch the latest version information:
+// TODO
+
+### Scheduling regular version checks using ```SSVCScheduler```:
+// TODO
+
+* ```
+
+## FAQ:
+
+### Is SSVC free to use?
+Yes, the project is licensed under the pervasive MIT License. See http://opensource.org/licenses/MIT for more information.
+
+### Why do I have to provide my own server?
+As far as I know there aren't any open APIs where this information can be retrieved from the Web. If you know others, please let me know!
+
+### Why don't you support CocoaPods?
+Firstly, because I haven't had the time yet. And secondly, because I don't use it myself. If you want CocoaPods support, let me know and I'm more likely to get around to it - or send me a diff! :)
