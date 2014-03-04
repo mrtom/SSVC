@@ -1,7 +1,7 @@
 # SSVC - A simple version checking client for iOS
 
 ## What is SSVC?
-SSVC is a simple version checking client for iOS. It connects to a server you designate and checks if a more recent version is available. It passes this information back to a delegate where you decide what to do next - for example displaying a prompt to take somebody to the App Store.
+SSVC is a simple version checking client for iOS. It connects to a server you designate and checks if a more recent version of your App is available. you decide how to consume this information and what to do next - for example displaying a prompt to take somebody to the App Store.
 
 ## Installation
 
@@ -39,9 +39,9 @@ The primary class of SSVC is called... SSVC! For the most basic usage:
 ```
 
 * This will cause SSVC to send an HTTP GET request to the server you specified above with the following parameters:
-    * SSVCLatestVersionKey - The version key of the application currently running, i.e. 1.0
-    * SSVCLatestVersionNumber - The vesrion (build) number of the application currently running, i.e. 16809984
-    * SSVCClientProtocolVersion - The version of the protocol used by SSVC, currently 1
+    * ```SSVCLatestVersionKey``` - The version key of the application currently running, i.e. 1.0
+    * ```SSVCLatestVersionNumber``` - The vesrion (build) number of the application currently running, i.e. 16809984
+    * ```SSVCClientProtocolVersion``` - The version of the protocol used by SSVC, currently 1
 
 SSVC expects your server to return a simple JSON object, with the following format. Note, all fields are optional:
 
@@ -66,7 +66,7 @@ SSVC expects your server to return a simple JSON object, with the following form
 | SSVCLatestVersionNumber | The iOS Version Number for your latest build, as found in your App bundle | An Unsigned Integer | No | 0 |
 
 ### SSVCResponse
-Once SSVC has received the response from your server, it constructs an ```SSVCResponse``` object. This object wraps up the JSON response in a more friendly Objective-C API, and saves it to disk using ```NSUserDefaults```, under the key ```SSVCResponseFromLastVersionCheck```. This probably isn't the simplest way of accessing the response - see 'Customising Usage' below for more information on how to register for updates when a new response is available.
+Once SSVC has received the response from your server, it constructs an ```SSVCResponse``` object. This object wraps up the JSON response in a more friendly Objective-C API then saves it to disk using ```NSUserDefaults```, under the key ```SSVCResponseFromLastVersionCheck```. This probably isn't the simplest way of accessing the response - see 'Customising Usage' below for more information on how to register for updates when a new response is available.
 
 An ```SSVCResponse``` objects contains the following (read only) properties, mapping to the fields in the JSON response above:
 
@@ -95,8 +95,8 @@ You can request callbacks from SSVC whenever it succeeds (and fails) to receive 
 
 The success block will be passed an instance of ```SSVCResponse```, and the failure block is passed an instance of ```NSError```. The success block is guaranteed to be run on the main thread. However, please note this is not true for the failure block. (Why? See the FAQ).
 
-#### Scheduling regular version checks using ```SSVCScheduler```:
-```SSVCScheduler``` instances instruct SSVC how often to automatically schedule version checks. You pass it's initialiser a typed enum, ```SSVCSchedulerRunPeriod``` detailing the schedule period, from the following options:
+#### Scheduling regular version checks using SSVCScheduler:
+```SSVCScheduler``` instances instruct SSVC how often to automatically schedule version checks. You pass it's initialiser a typed enum, ```SSVCSchedulerRunPeriod```, detailing the schedule period. The following options are available:
 
 * ```SSVCSchedulerDoNotSchedule``` - Do not schedule regular checks
 * ```SSVCSchedulerScheduleHourly``` - Check once per hour
@@ -104,7 +104,7 @@ The success block will be passed an instance of ```SSVCResponse```, and the fail
 * ```SSVCSchedulerScheduleWeekly``` - Check once per week
 * ```SSVCSchedulerScheduleMonthly``` - Check once per month
 
-The checks only occur if the app is running. When you initialise an ```SSVC``` object, it checks when the last version check was performed and schedules an update accordingly. Thus, if the app ins't running at the time the check should be made, your App will simply make the check the next time it is launched (and an ```SSVC``` object created).
+The checks only occur if your App is running. When you initialise an SSVC object, it checks when the last version check was performed and schedules an update accordingly. Thus, if the app ins't running at the time the check should be made, your App will simply make the check the next time it is launched (and an SSVC object created).
 
 If you want to schedule a more complex update strategy, you should use ```NSTimer``` (or something similar) and call ```[SSVC checkVersion]``` at the appropriate time.
 
@@ -132,7 +132,4 @@ dispatch_queue_t q = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0);
 dispatch_async(q, ^{
   // Your code here
 });
-```
-
-
 ```
