@@ -13,7 +13,7 @@
 #import "SSVCURLConnection.h"
 
 // Names for keys
-NSString *const SSVCCallbackURLKey = @"SSVCCallbackURLKey";
+NSString *const SSVCCallbackURLKey = @"SSVCCallbackURL";
 NSString *const SSVCDateOfLastVersionCheck = @"SSVCDateOfLastVersionCheck";
 NSString *const SSVCUpdateAvailable = @"SSVCUpdateAvailable";
 NSString *const SSVCUpdateRequired = @"SSVCUpdateRequired";
