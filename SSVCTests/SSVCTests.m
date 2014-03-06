@@ -26,9 +26,35 @@
     [super tearDown];
 }
 
-- (void)testExample
+- (void)testSuccessBlockIsCalledAfterSuccessfulVersionFetch
 {
-    XCTFail(@"No implementation for \"%s\"", __PRETTY_FUNCTION__);
+  
+}
+
+- (void)testFailureBlockIsCalledAfterUnsuccessfulVersionFetch
+{
+  
+}
+
+- (void)testFailureBlockIsCalledAfterUnsuccessfulJSONParse
+{
+  NSString *badJSON = @"blahblah:";
+  
+}
+
+- (void)testLastResponseIsCorrectlySavedToNSUserDefaultsAfterSuccessfulFetch
+{
+  
+}
+
+- (void)testSavedResponseIsNotUpdatedAfterUnsuccessfulFetch
+{
+  
+}
+
+- (void)testLastVersionCheckDateIsSavedToNSUserDefaults
+{
+  
 }
 
 @end

@@ -117,7 +117,7 @@
 				4512D12218C8FEA300F1C3F2 /* SSVCURLGenerator.h */,
 				4512D12318C8FEA300F1C3F2 /* SSVCURLGenerator.m */,
 			);
-			name = Internal;
+			path = Internal;
 			sourceTree = "<group>";
 		};
 		4540F33418C46CAF00BA7575 = {
