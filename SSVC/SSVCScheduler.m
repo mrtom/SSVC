@@ -47,6 +47,7 @@ static const NSTimeInterval kSecondsPerWeek = 7 * kSecondsPerDay;
   NSDate *now = [NSDate date];
   NSDate *maximumValidLastDate;
   NSDate *minimumValidNextDate;
+  NSCalendar *usersCalendar;
   
   switch (_period) {
     case SSVCSchedulerDoNotSchedule:
@@ -66,8 +67,7 @@ static const NSTimeInterval kSecondsPerWeek = 7 * kSecondsPerDay;
       minimumValidNextDate = [NSDate dateWithTimeInterval:kSecondsPerWeek sinceDate:now];
       break;
     case SSVCSchedulerScheduleMonthly:
-      NSLog(@"TODO: WTF? Build fails without a line of code here. CRAZY!");
-      NSCalendar *usersCalendar = [[NSLocale currentLocale] objectForKey:NSLocaleCalendar];
+      usersCalendar = [[NSLocale currentLocale] objectForKey:NSLocaleCalendar];
       NSDateComponents *offsetComponents = [[NSDateComponents alloc] init];
       
       [offsetComponents setMonth:-1];
@@ -83,12 +83,12 @@ static const NSTimeInterval kSecondsPerWeek = 7 * kSecondsPerDay;
     [self __scheduleVersionCheck];
   } else {
     // Last check date is after the maximum valid last date, so we must schedule a check
-    NSTimeInterval timeTillNextCheck = [minimumValidNextDate timeIntervalSinceDate:now];
-    _versionCheckTimer = [NSTimer timerWithTimeInterval:timeTillNextCheck
-                                                 target:self
-                                               selector:@selector(__scheduleVersionCheck)
-                                               userInfo:nil
-                                                repeats:NO];
+    _versionCheckTimer = [[NSTimer alloc] initWithFireDate:minimumValidNextDate
+                                                  interval:0
+                                                    target:self
+                                                  selector:@selector(__scheduleVersionCheck)
+                                                  userInfo:Nil
+                                                   repeats:NO];
     [[NSRunLoop mainRunLoop] addTimer:_versionCheckTimer forMode:NSRunLoopCommonModes];
   }
 }
