@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4512D11C18C8F62200F1C3F2 /* SSVCRequestRunner.m in Sources */ = {isa = PBXBuildFile; fileRef = 4512D11B18C8F62200F1C3F2 /* SSVCRequestRunner.m */; };
+		4512D11F18C8F6ED00F1C3F2 /* SSVCJSONParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 4512D11E18C8F6ED00F1C3F2 /* SSVCJSONParser.m */; };
+		4512D12418C8FEA300F1C3F2 /* SSVCURLGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 4512D12318C8FEA300F1C3F2 /* SSVCURLGenerator.m */; };
 		452F367418C51BCC001EE399 /* SSVCScheduler.m in Sources */ = {isa = PBXBuildFile; fileRef = 452F367318C51BCC001EE399 /* SSVCScheduler.m */; };
 		452F369318C53041001EE399 /* SSVCResponse.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4540F36618C4746B00BA7575 /* SSVCResponse.h */; };
 		452F369418C53041001EE399 /* SSVCScheduler.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 452F367218C51BCC001EE399 /* SSVCScheduler.h */; };
@@ -51,6 +54,13 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		4512D11A18C8F62200F1C3F2 /* SSVCRequestRunner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSVCRequestRunner.h; sourceTree = "<group>"; };
+		4512D11B18C8F62200F1C3F2 /* SSVCRequestRunner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSVCRequestRunner.m; sourceTree = "<group>"; };
+		4512D11D18C8F6ED00F1C3F2 /* SSVCJSONParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSVCJSONParser.h; sourceTree = "<group>"; };
+		4512D11E18C8F6ED00F1C3F2 /* SSVCJSONParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSVCJSONParser.m; sourceTree = "<group>"; };
+		4512D12018C8F79E00F1C3F2 /* SSVCResponseParserProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SSVCResponseParserProtocol.h; sourceTree = "<group>"; };
+		4512D12218C8FEA300F1C3F2 /* SSVCURLGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSVCURLGenerator.h; sourceTree = "<group>"; };
+		4512D12318C8FEA300F1C3F2 /* SSVCURLGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSVCURLGenerator.m; sourceTree = "<group>"; };
 		452F367218C51BCC001EE399 /* SSVCScheduler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSVCScheduler.h; sourceTree = "<group>"; };
 		452F367318C51BCC001EE399 /* SSVCScheduler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSVCScheduler.m; sourceTree = "<group>"; };
 		452F367518C51E25001EE399 /* SSVCSchedulerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SSVCSchedulerDelegate.h; sourceTree = "<group>"; };
@@ -94,6 +104,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4512D12118C8FE8000F1C3F2 /* Internal */ = {
+			isa = PBXGroup;
+			children = (
+				4512D11A18C8F62200F1C3F2 /* SSVCRequestRunner.h */,
+				4512D11B18C8F62200F1C3F2 /* SSVCRequestRunner.m */,
+				4512D12018C8F79E00F1C3F2 /* SSVCResponseParserProtocol.h */,
+				4512D11D18C8F6ED00F1C3F2 /* SSVCJSONParser.h */,
+				4512D11E18C8F6ED00F1C3F2 /* SSVCJSONParser.m */,
+				4540F36918C49ADA00BA7575 /* SSVCURLConnection.h */,
+				4540F36A18C49ADA00BA7575 /* SSVCURLConnection.m */,
+				4512D12218C8FEA300F1C3F2 /* SSVCURLGenerator.h */,
+				4512D12318C8FEA300F1C3F2 /* SSVCURLGenerator.m */,
+			);
+			name = Internal;
+			sourceTree = "<group>";
+		};
 		4540F33418C46CAF00BA7575 = {
 			isa = PBXGroup;
 			children = (
@@ -133,8 +159,7 @@
 				452F367518C51E25001EE399 /* SSVCSchedulerDelegate.h */,
 				452F367218C51BCC001EE399 /* SSVCScheduler.h */,
 				452F367318C51BCC001EE399 /* SSVCScheduler.m */,
-				4540F36918C49ADA00BA7575 /* SSVCURLConnection.h */,
-				4540F36A18C49ADA00BA7575 /* SSVCURLConnection.m */,
+				4512D12118C8FE8000F1C3F2 /* Internal */,
 				4540F34318C46CAF00BA7575 /* Supporting Files */,
 			);
 			path = SSVC;
@@ -248,9 +273,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				452F367418C51BCC001EE399 /* SSVCScheduler.m in Sources */,
+				4512D11C18C8F62200F1C3F2 /* SSVCRequestRunner.m in Sources */,
 				4540F34818C46CAF00BA7575 /* SSVC.m in Sources */,
+				4512D12418C8FEA300F1C3F2 /* SSVCURLGenerator.m in Sources */,
 				4540F36B18C49ADA00BA7575 /* SSVCURLConnection.m in Sources */,
 				4540F36818C4746B00BA7575 /* SSVCResponse.m in Sources */,
+				4512D11F18C8F6ED00F1C3F2 /* SSVCJSONParser.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

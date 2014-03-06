@@ -18,6 +18,7 @@
                                userInfo:nil];
 }
 
+// Designated initialiser
 - (id)initWithUpdateAvailable:(BOOL)updateAvailable
                updateRequired:(BOOL)updateRequired
          updateAvailableSince:(NSDate *)updateAvailableSince

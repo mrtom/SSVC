@@ -16,6 +16,7 @@
 @property (nonatomic, strong, readonly) NSString *versionKey;
 @property (nonatomic, strong, readonly) NSNumber *versionNumber;
 
+/// Designated initialiser
 - (id)initWithUpdateAvailable:(BOOL)updateAvailable
                updateRequired:(BOOL)updateRequired
          updateAvailableSince:(NSDate *)updateAvailableSince

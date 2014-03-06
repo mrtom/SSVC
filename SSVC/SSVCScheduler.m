@@ -28,6 +28,7 @@ static const NSTimeInterval kSecondsPerWeek = 7 * kSecondsPerDay;
   return [self initWithPeriod:SSVCSchedulerDoNotSchedule];
 }
 
+// Designated initialiser
 - (id)initWithPeriod:(SSVCSchedulerRunPeriod)period
 {
   if (self = [super init]) {

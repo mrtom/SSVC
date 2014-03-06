@@ -8,9 +8,12 @@
 
 #import "SSVC.h"
 
+#import "SSVCJSONParser.h"
 #import "SSVCResponse.h"
+#import "SSVCRequestRunner.h"
 #import "SSVCSchedulerDelegate.h"
 #import "SSVCURLConnection.h"
+#import "SSVCURLGenerator.h"
 
 // Names for keys
 NSString *const SSVCCallbackURLKey = @"SSVCCallbackURL";
@@ -23,14 +26,7 @@ NSString *const SSVCLatestVersionNumber = @"SSVCLatestVersionNumber";
 
 NSString *const SSVCResponseFromLastVersionCheck = @"SSVCResponseFromLastVersionCheck";
 
-BOOL const kSSVCDefaultUpdateAvailable = NO;
-BOOL const kSSVCDefaultUpdateRequired = NO;
-NSString *const kSSVCDefaultLatestVersionKey = @"0.0.0";
-
-NSString *const SSVCClientProtocolVersion = @"SSVCClientProtocolVersion";
-NSUInteger const SSVCClientProtocolVersionNumber = 1;
-
-@interface SSVC() <NSURLConnectionDataDelegate, SSVCSchedulerDelegate>
+@interface SSVC()
 
 @property (nonatomic, copy, readonly) SSVCScheduler *scheduler;
 @property (nonatomic, copy, readonly) ssvc_fetch_success_block_t success;
@@ -42,21 +38,6 @@ NSUInteger const SSVCClientProtocolVersionNumber = 1;
 @end
 
 @implementation SSVC
-
-#pragma mark - Defaults
-
-+ (NSDictionary *)defaultObjectsDict
-{
-  static NSDictionary *defaultDict = nil;
-  static dispatch_once_t onceToken;
-  dispatch_once(&onceToken, ^{
-    defaultDict = @{
-                    SSVCUpdateAvailableSince: [NSDate distantPast],
-                    SSVCLatestVersionNumber: @0
-                    };
-  });
-  return defaultDict;
-}
 
 #pragma mark - Initialisation
 
@@ -99,20 +80,13 @@ NSUInteger const SSVCClientProtocolVersionNumber = 1;
     [self __versionFromBundle];
     
     _scheduler = scheduler;
-    _scheduler.delegate = self;
-    
     _success = success;
     _failure = failure;
     
-    NSRange questionMarkRange = [url rangeOfString:@"?" options:NSBackwardsSearch];
-    NSString *seperator = questionMarkRange.location == NSNotFound ? @"?" : @"&";
-    
-    
-    _callbackURL = [NSString stringWithFormat:@"%@%@%@=%@&%@=%@&%@=%@",
-                                 url, seperator,
-                                 SSVCLatestVersionKey, _versionKey,
-                                 SSVCLatestVersionNumber, _versionNumber,
-                    SSVCClientProtocolVersion, @(SSVCClientProtocolVersionNumber)];
+    SSVCURLGenerator *urlGenerator = [[SSVCURLGenerator alloc] initWithBaseURL:url
+                                                                    versionKey:_versionKey
+                                                                 versionNumber:_versionNumber];
+    _callbackURL = [urlGenerator url];
     
     // Run scheduler
     [_scheduler startSchedulingFromLastCheckDate:[self __lastVersionCheckDateFromUserDefaults]];
@@ -124,35 +98,20 @@ NSUInteger const SSVCClientProtocolVersionNumber = 1;
 
 - (void)checkVersion
 {
-  NSURLRequest *urlRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:_callbackURL]];
+  SSVCRequestRunner *runner = [[SSVCRequestRunner alloc]
+                               initWithParser:[[SSVCJSONParser alloc] init]
+                               scheduler:_scheduler
+                               lastCheckDate:[self __lastVersionCheckDateFromUserDefaults]
+                               success:_success
+                               failure:_failure];
+  _scheduler.delegate = runner;
   
+  NSURLRequest *urlRequest = [NSURLRequest requestWithURL:_callbackURL];
   SSVCURLConnection *urlConnection = [[SSVCURLConnection alloc] initWithRequest:urlRequest
-                                                                       delegate:self];
-  
-  __weak SSVC *weakSelf = self;
-  urlConnection.onComplete = ^(SSVCURLConnection *connection){
-    SSVC *strongSelf = weakSelf;
-    if (strongSelf) {
-      NSDate *now = [NSDate date];
-      NSError *error;
-      NSData *responseData = connection.data;
-      
-      [strongSelf __updateLastCheckDate:now];
-      SSVCResponse *response = [strongSelf __buildResponseFromJSONData:responseData error:&error];
-      [strongSelf __performCallbacksWithResponse:response error:error];
-      [strongSelf __restartScheduler];
-    }
-  };
-  urlConnection.onError = ^(NSError *error){
-    SSVC *strongSelf = weakSelf;
-    if (strongSelf) {
-      [strongSelf __updateLastCheckDate:[NSDate date]];
-      [strongSelf __performCallbacksWithResponse:nil error:error];
-      [strongSelf __restartScheduler];
-    }
-  };
-  
-  [urlConnection start];
+                                                                       delegate:runner];
+  runner.connection = urlConnection;
+
+  [runner checkVersion];
 }
 
 - (SSVCResponse *)lastResponse
@@ -163,81 +122,16 @@ NSUInteger const SSVCClientProtocolVersionNumber = 1;
 
 #pragma mark - Private instance methods
 
-- (void)__performCallbacksWithResponse:(SSVCResponse *)response error:(NSError *)error
-{
-  if (error) {
-    if (_failure) {
-      _failure(error);
-    }
-  } else {
-    if (self.success) {
-      [self __archiveResponse:response];
-      
-      dispatch_async(dispatch_get_main_queue(), ^{
-        self.success(response);
-      });
-    }
-  }
-}
-
-- (void)__restartScheduler
-{
-  [_scheduler startSchedulingFromLastCheckDate:[self __lastVersionCheckDateFromUserDefaults]];
-}
-
 - (NSDate *)__lastVersionCheckDateFromUserDefaults
 {
   NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
   NSDate *lastCheck = (NSDate *)[userDefaults objectForKey:SSVCDateOfLastVersionCheck];
-
+  
   if (!lastCheck) {
     lastCheck = [NSDate distantPast];
   }
   
   return lastCheck;
-}
-
-- (void)__updateLastCheckDate:(NSDate *)lastCheckDate
-{
-  NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-  [userDefaults setObject:lastCheckDate forKey:SSVCDateOfLastVersionCheck];
-}
-
-- (void)__archiveResponse:(SSVCResponse *)response
-{
-  NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-  NSData *archivedResponse = [NSKeyedArchiver archivedDataWithRootObject:response];
-  [userDefaults setObject:archivedResponse forKey:SSVCResponseFromLastVersionCheck];
-}
-
-- (SSVCResponse *)__buildResponseFromJSONData:(NSData *)responseData error:(NSError **)error
-{
-  NSDictionary *defaultsDict = [SSVC defaultObjectsDict];
-  NSDictionary *json = [NSJSONSerialization JSONObjectWithData:responseData
-                                                       options:kNilOptions
-                                                         error:error];
-  
-  BOOL updateAvailable = [json objectForKey:SSVCUpdateAvailable] ? [[json objectForKey:SSVCUpdateAvailable] boolValue] : kSSVCDefaultUpdateAvailable;
-  BOOL updateRequired = [json objectForKey:SSVCUpdateRequired] ? [[json objectForKey:SSVCUpdateRequired] boolValue] : kSSVCDefaultUpdateRequired;
-  
-  NSNumber *updateAvailableSinceTime = [json objectForKey:SSVCUpdateAvailableSince];
-  NSDate *updateAvailableSinceDate;
-  if (updateAvailableSinceTime) {
-    updateAvailableSinceDate = [NSDate dateWithTimeIntervalSince1970:[updateAvailableSinceTime unsignedIntegerValue]];
-  } else {
-    updateAvailableSinceDate = defaultsDict[SSVCUpdateAvailableSince];
-  }
-  
-  NSString *latestVersionKey = json[SSVCLatestVersionKey] ?: kSSVCDefaultLatestVersionKey;
-  NSNumber *latestVersionNumber = json[SSVCLatestVersionNumber] ?: defaultsDict[SSVCLatestVersionNumber];
-  
-  SSVCResponse *response = [[SSVCResponse alloc] initWithUpdateAvailable:updateAvailable
-                                                          updateRequired:updateRequired
-                                                    updateAvailableSince:updateAvailableSinceDate
-                                                        latestVersionKey:latestVersionKey
-                                                     latestVersionNumber:latestVersionNumber];
-  
-  return response;
 }
 
 - (void)__versionFromBundle
@@ -249,38 +143,6 @@ NSUInteger const SSVCClientProtocolVersionNumber = 1;
   _versionNumber = [NSNumber numberWithUnsignedInteger:CFBundleGetVersionNumber(CFBundleGetMainBundle())];
 }
 
-#pragma mark - NSURLConnectionDataDelegate methods
 
-- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
-  ((SSVCURLConnection *)connection).data = [[NSMutableData alloc] init];
-}
-
-- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
-  [((SSVCURLConnection *)connection).data  appendData:data];
-}
-
-- (NSCachedURLResponse *)connection:(NSURLConnection *)connection
-                  willCacheResponse:(NSCachedURLResponse*)cachedResponse {
-  return nil;
-}
-
-- (void)connectionDidFinishLoading:(NSURLConnection *)connection {
-  dispatch_queue_t q = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0);
-  dispatch_async(q, ^{
-    SSVCURLConnection *c = (SSVCURLConnection *)connection;
-    c.onComplete(c);
-  });
-}
-
-- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
-  ((SSVCURLConnection *)connection).onError(error);
-}
-
-#pragma mark - SSVCSchedulerDelegate methods
-
-- (void)periodElapsedForScheduler:(SSVCScheduler *)scheduler
-{
-  [self checkVersion];
-}
 
 @end

@@ -20,7 +20,7 @@ typedef NS_ENUM(NSUInteger, SSVCSchedulerRunPeriod) {
 
 @interface SSVCScheduler : NSObject
 
-// Designated initialiser
+/// Designated initialiser
 - (id)initWithPeriod:(SSVCSchedulerRunPeriod)period;
 
 @property (nonatomic, weak) id<SSVCSchedulerDelegate> delegate;
