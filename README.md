@@ -1,5 +1,7 @@
 # SSVC - A simple version checking client for iOS
 
+## [This is Alpha Software. Expect frequent changes!]
+
 ## What is SSVC?
 SSVC is a simple version checking client for iOS. It connects to a server You designate and checks if a more recent version of your App is available. you decide how to consume this information and what to do next - for example displaying a prompt to take somebody to the App Store.
 
