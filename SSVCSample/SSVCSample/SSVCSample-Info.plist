@@ -26,6 +26,8 @@
 	<true/>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
+	<key>SSVCCallbackURL</key>
+	<string>https://raw.github.com/mrtom/SSVC/master/SSVCSample/sample_data.json</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>
