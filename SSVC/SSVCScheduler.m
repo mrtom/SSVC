@@ -38,7 +38,7 @@ static const NSTimeInterval kSecondsPerWeek = 7 * kSecondsPerDay;
 
 #pragma mark - Public instance methods
 
-- (void)startSchedulingWithLastVersionDateCheck:(NSDate *)lastCheckDate
+- (void)startSchedulingFromLastCheckDate:(NSDate *)lastCheckDate
 {
   if (_versionCheckTimer) {
     [_versionCheckTimer invalidate];

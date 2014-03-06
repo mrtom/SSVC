@@ -11,7 +11,7 @@
 @interface SSVCURLConnection : NSURLConnection
 
 @property(nonatomic, strong) NSMutableData *data;
-@property(nonatomic, copy) void (^onComplete)();
+@property(nonatomic, copy) void (^onComplete)(SSVCURLConnection *self);
 @property(nonatomic, copy) void (^onError)(NSError *error);
 
 @end

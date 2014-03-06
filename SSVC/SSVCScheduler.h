@@ -25,6 +25,6 @@ typedef NS_ENUM(NSUInteger, SSVCSchedulerRunPeriod) {
 
 @property (nonatomic, weak) id<SSVCSchedulerDelegate> delegate;
 
-- (void)startSchedulingWithLastVersionDateCheck:(NSDate *)lastCheckDate;
+- (void)startSchedulingFromLastCheckDate:(NSDate *)lastCheckDate;
 
 @end
