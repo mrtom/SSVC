@@ -26,35 +26,6 @@
     [super tearDown];
 }
 
-- (void)testSuccessBlockIsCalledAfterSuccessfulVersionFetch
-{
-  
-}
 
-- (void)testFailureBlockIsCalledAfterUnsuccessfulVersionFetch
-{
-  
-}
-
-- (void)testFailureBlockIsCalledAfterUnsuccessfulJSONParse
-{
-  NSString *badJSON = @"blahblah:";
-  
-}
-
-- (void)testLastResponseIsCorrectlySavedToNSUserDefaultsAfterSuccessfulFetch
-{
-  
-}
-
-- (void)testSavedResponseIsNotUpdatedAfterUnsuccessfulFetch
-{
-  
-}
-
-- (void)testLastVersionCheckDateIsSavedToNSUserDefaults
-{
-  
-}
 
 @end
