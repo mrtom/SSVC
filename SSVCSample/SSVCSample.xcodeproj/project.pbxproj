@@ -511,6 +511,7 @@
 				4512D0FC18C869B600F1C3F2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		4512D0FD18C869B600F1C3F2 /* Build configuration list for PBXNativeTarget "SSVCSampleTests" */ = {
 			isa = XCConfigurationList;
@@ -519,6 +520,7 @@
 				4512D0FF18C869B600F1C3F2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

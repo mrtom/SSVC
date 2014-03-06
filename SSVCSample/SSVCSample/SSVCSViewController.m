@@ -26,29 +26,9 @@
     
     // Create the version checker and the callback blocks
     _versionChecker = [[SSVC alloc] initWithCompletionHandler:^(SSVCResponse *response) {
-      SSVCSViewController *strongSelf = weakSelf;
-      if (strongSelf) {
-        strongSelf.feedbackIndicator.hidden = YES;
-        strongSelf.feedbackLabel.text = @"Version Check Success!";
-        
-        strongSelf.updateAvailableResult.text = response.updateAvailable ? @"Yes" : @"No";
-        strongSelf.updateRequiredResult.text = response.updateRequired ? @"Yes" : @"No";
-        
-        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-        [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
-        [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
-        strongSelf.updateSinceResult.text = [dateFormatter stringFromDate:response.updateAvailableSince];
-        
-        strongSelf.latestVersionKeyResult.text = response.versionKey;
-        strongSelf.latestVersionNumberResult.text = [NSString stringWithFormat:@"%@", response.versionNumber];
-      }
+      [weakSelf __handleVersionCheckSuccessWithResponse:response];
     } failureHandler:^(NSError *error) {
-      SSVCSViewController *strongSelf = weakSelf;
-      if (strongSelf) {
-        strongSelf.feedbackIndicator.hidden = YES;
-        strongSelf.feedbackLabel.text = @"Update Failed";
-        NSLog(@"%@", [error localizedDescription]);
-      }
+      [weakSelf __handleVersionCheckFailureForError:error];
     }];
   }
   return self;
@@ -69,6 +49,32 @@
 {
   [super didReceiveMemoryWarning];
   // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - Private instance methods
+
+- (void)__handleVersionCheckSuccessWithResponse:(SSVCResponse *)response
+{
+  _feedbackIndicator.hidden = YES;
+  _feedbackLabel.text = @"Version Check Success!";
+  
+  _updateAvailableResult.text = response.updateAvailable ? @"Yes" : @"No";
+  _updateRequiredResult.text = response.updateRequired ? @"Yes" : @"No";
+  
+  NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+  [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
+  [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
+  _updateSinceResult.text = [dateFormatter stringFromDate:response.updateAvailableSince];
+  
+  _latestVersionKeyResult.text = response.versionKey;
+  _latestVersionNumberResult.text = [NSString stringWithFormat:@"%@", response.versionNumber];
+}
+
+- (void)__handleVersionCheckFailureForError:(NSError *)error
+{
+  _feedbackIndicator.hidden = YES;
+  _feedbackLabel.text = @"Update Failed";
+  NSLog(@"%@", [error localizedDescription]);
 }
 
 @end
