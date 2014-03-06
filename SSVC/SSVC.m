@@ -43,6 +43,8 @@ NSUInteger const SSVCClientProtocolVersionNumber = 1;
 
 @implementation SSVC
 
+#pragma mark - Defaults
+
 + (NSDictionary *)defaultObjectsDict
 {
   static NSDictionary *defaultDict = nil;
@@ -55,6 +57,8 @@ NSUInteger const SSVCClientProtocolVersionNumber = 1;
   });
   return defaultDict;
 }
+
+#pragma mark - Initialisation
 
 - (id)init
 {
@@ -278,6 +282,5 @@ NSUInteger const SSVCClientProtocolVersionNumber = 1;
 {
   [self checkVersion];
 }
-
 
 @end
