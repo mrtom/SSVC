@@ -26,16 +26,16 @@ The primary class of SSVC is called... SSVC! For the most basic usage:
     #import <SSVC/SSVC.h>
 ```
 
-* Create a basic instance of the view checker object somewhere, for example in your designated initialiser:
+* Create a basic instance of the version checker object somewhere, for example in your designated initialiser:
 
 ```objc
-    SSVC *viewChecker = [SSVC new];
+    SSVC *versionChecker = [SSVC new];
 ```
 
 * Call ```checkVersion:```:
 
 ```objc
-  [viewChecker checkVersion];
+  [versionChecker checkVersion];
 ```
 
 * This will cause SSVC to send an HTTP GET request to the server you specified above with the following parameters:
