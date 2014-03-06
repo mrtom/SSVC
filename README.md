@@ -16,6 +16,8 @@ SSVC is a simple version checking client for iOS. It connects to a server You de
 
 ## Basic Usage
 
+##### The easiest way to to see SSVC in action is to check out the Sample App. You can download this under 'SSVCSample' from the GitHub repo.
+
 The primary class of SSVC is called... SSVC! For the most basic usage:
 
 * Add the URL of your server to your main plist file. Use the key ```SSVCCallbackURL``` and a URL for the value. This URL must be fully qualified and may contain GET parameters.
