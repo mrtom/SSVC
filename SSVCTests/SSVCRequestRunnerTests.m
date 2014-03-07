@@ -7,6 +7,12 @@
 //
 
 #import <XCTest/XCTest.h>
+#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+
+#import <OCMock/OCMock.h>
+
+#import "SSVCJSONParser.h"
 
 @interface SSVCRequestRunnerTests : XCTestCase
 
@@ -39,7 +45,14 @@
 - (void)testFailureBlockIsCalledAfterUnsuccessfulJSONParse
 {
   NSString *badJSON = @"blahblah:";
+  id mockJSONParser = [OCMockObject mockForClass:[SSVCJSONParser class]];
+  [[[mockJSONParser expect] andReturn:nil] parseJSONFromData:nil andError:nil];
   
+  
+  id mockTableView = [OCMockObject mockForClass:[UITableView class]];
+//	[[[mockTableView expect] andReturn:nil] dequeueReusableCellWithIdentifier:@"HelloWorldCell"];
+
+  [mockTableView verify];
 }
 
 - (void)testLastResponseIsCorrectlySavedToNSUserDefaultsAfterSuccessfulFetch

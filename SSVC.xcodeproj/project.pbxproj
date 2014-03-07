@@ -27,15 +27,37 @@
 		4540F35D18C46CAF00BA7575 /* SSVCTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4540F35C18C46CAF00BA7575 /* SSVCTests.m */; };
 		4540F36818C4746B00BA7575 /* SSVCResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 4540F36718C4746B00BA7575 /* SSVCResponse.m */; };
 		4540F36B18C49ADA00BA7575 /* SSVCURLConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 4540F36A18C49ADA00BA7575 /* SSVCURLConnection.m */; };
+		45FDFCD418C9ECED00E0A383 /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 45FDFCD118C9ECDA00E0A383 /* libOCMock.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		4540F35318C46CAF00BA7575 /* PBXContainerItemProxy */ = {
+		45FDFCCC18C9ECDA00E0A383 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 4540F33518C46CAF00BA7575 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 4540F33C18C46CAF00BA7575;
-			remoteInfo = SSVC;
+			containerPortal = 45FDFCC518C9ECDA00E0A383 /* OCMock.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 030EF0A814632FD000B04273;
+			remoteInfo = OCMock;
+		};
+		45FDFCCE18C9ECDA00E0A383 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 45FDFCC518C9ECDA00E0A383 /* OCMock.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 030EF0C014632FD000B04273;
+			remoteInfo = OCMockTests;
+		};
+		45FDFCD018C9ECDA00E0A383 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 45FDFCC518C9ECDA00E0A383 /* OCMock.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 030EF0DC14632FF700B04273;
+			remoteInfo = OCMockLib;
+		};
+		45FDFCD218C9ECDA00E0A383 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 45FDFCC518C9ECDA00E0A383 /* OCMock.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D31108AD1828DB8700737925;
+			remoteInfo = OCMockLibTests;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -83,6 +105,7 @@
 		4540F36718C4746B00BA7575 /* SSVCResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSVCResponse.m; sourceTree = "<group>"; };
 		4540F36918C49ADA00BA7575 /* SSVCURLConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSVCURLConnection.h; sourceTree = "<group>"; };
 		4540F36A18C49ADA00BA7575 /* SSVCURLConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSVCURLConnection.m; sourceTree = "<group>"; };
+		45FDFCC518C9ECDA00E0A383 /* OCMock.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = OCMock.xcodeproj; path = submodules/ocmock/Source/OCMock.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,6 +121,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				45FDFCD418C9ECED00E0A383 /* libOCMock.a in Frameworks */,
 				4540F34F18C46CAF00BA7575 /* XCTest.framework in Frameworks */,
 				4540F35218C46CAF00BA7575 /* UIKit.framework in Frameworks */,
 				4540F35518C46CAF00BA7575 /* libSSVC.a in Frameworks */,
@@ -149,6 +173,7 @@
 				4540F34018C46CAF00BA7575 /* Foundation.framework */,
 				4540F34E18C46CAF00BA7575 /* XCTest.framework */,
 				4540F35118C46CAF00BA7575 /* UIKit.framework */,
+				45FDFCC518C9ECDA00E0A383 /* OCMock.xcodeproj */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -197,6 +222,17 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		45FDFCC618C9ECDA00E0A383 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				45FDFCCD18C9ECDA00E0A383 /* OCMock.framework */,
+				45FDFCCF18C9ECDA00E0A383 /* OCMockTests.octest */,
+				45FDFCD118C9ECDA00E0A383 /* libOCMock.a */,
+				45FDFCD318C9ECDA00E0A383 /* OCMockLibTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -209,8 +245,6 @@
 				4540F33B18C46CAF00BA7575 /* CopyFiles */,
 			);
 			buildRules = (
-			);
-			dependencies = (
 			);
 			name = SSVC;
 			productName = SSVC;
@@ -226,9 +260,6 @@
 				4540F34B18C46CAF00BA7575 /* Resources */,
 			);
 			buildRules = (
-			);
-			dependencies = (
-				4540F35418C46CAF00BA7575 /* PBXTargetDependency */,
 			);
 			name = SSVCTests;
 			productName = SSVCTests;
@@ -254,6 +285,12 @@
 			mainGroup = 4540F33418C46CAF00BA7575;
 			productRefGroup = 4540F33E18C46CAF00BA7575 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 45FDFCC618C9ECDA00E0A383 /* Products */;
+					ProjectRef = 45FDFCC518C9ECDA00E0A383 /* OCMock.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				4540F33C18C46CAF00BA7575 /* SSVC */,
@@ -261,6 +298,37 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		45FDFCCD18C9ECDA00E0A383 /* OCMock.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = OCMock.framework;
+			remoteRef = 45FDFCCC18C9ECDA00E0A383 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		45FDFCCF18C9ECDA00E0A383 /* OCMockTests.octest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = OCMockTests.octest;
+			remoteRef = 45FDFCCE18C9ECDA00E0A383 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		45FDFCD118C9ECDA00E0A383 /* libOCMock.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libOCMock.a;
+			remoteRef = 45FDFCD018C9ECDA00E0A383 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		45FDFCD318C9ECDA00E0A383 /* OCMockLibTests.octest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = OCMockLibTests.octest;
+			remoteRef = 45FDFCD218C9ECDA00E0A383 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		4540F34B18C46CAF00BA7575 /* Resources */ = {
@@ -299,14 +367,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		4540F35418C46CAF00BA7575 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 4540F33C18C46CAF00BA7575 /* SSVC */;
-			targetProxy = 4540F35318C46CAF00BA7575 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		4540F35918C46CAF00BA7575 /* InfoPlist.strings */ = {
@@ -429,7 +489,18 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(SRCROOT)/dependencies/",
+				);
 				INFOPLIST_FILE = "SSVCTests/SSVCTests-Info.plist";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					XCTest,
+					"-all_load",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -446,7 +517,18 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SSVC/SSVC-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(SRCROOT)/dependencies/",
+				);
 				INFOPLIST_FILE = "SSVCTests/SSVCTests-Info.plist";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					XCTest,
+					"-all_load",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = xctest;
 			};
