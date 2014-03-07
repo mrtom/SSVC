@@ -12,6 +12,4 @@
 
 @interface SSVCJSONParser : NSObject<SSVCResponseParserProtocol>
 
-- (NSDictionary *)parseResponseFromData:(NSData *)data error:(NSError **)error;
-
 @end

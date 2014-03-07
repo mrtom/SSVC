@@ -138,8 +138,7 @@ NSString *const kSSVCDefaultLatestVersionKey = @"0.0.0";
 - (SSVCResponse *)__buildResponseFromJSONData:(NSData *)responseData error:(NSError **)error
 {
   NSDictionary *defaultsDict = [SSVCRequestRunner defaultObjectsDict];
-  NSDictionary *json = [NSJSONSerialization JSONObjectWithData:responseData
-                                                       options:kNilOptions
+  NSDictionary *json = [_parser parseResponseFromData:responseData
                                                          error:error];
   
   BOOL updateAvailable = [json objectForKey:SSVCUpdateAvailable] ? [[json objectForKey:SSVCUpdateAvailable] boolValue] : kSSVCDefaultUpdateAvailable;

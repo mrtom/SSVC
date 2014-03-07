@@ -10,4 +10,7 @@
 
 @protocol SSVCResponseParserProtocol <NSObject>
 
+@required
+- (NSDictionary *)parseResponseFromData:(NSData *)data error:(NSError **)error;
+
 @end
