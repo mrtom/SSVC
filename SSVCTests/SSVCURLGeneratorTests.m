@@ -42,12 +42,10 @@
   NSURL *url = [urlGenerator url];
   NSString *urlString = [url absoluteString];
   
-  NSLog(@"%@", urlString);
-  
   NSRange range = [urlString rangeOfString:@"?" options:NSBackwardsSearch];
   
-  NSAssert(range.location != NSNotFound, @"A ? must exist in the URL");
-  NSAssert(range.length == 1, @"Only one ? character should be found together");
+  XCTAssertFalse(range.location == NSNotFound, @"A ? must exist in the URL");
+  XCTAssertEqual(range.length, 1u, @"Only one ? character should be found together");
 }
 
 - (void)testURLGeneratorAppendsAmpersandForSeperatorWhenBaseURLAlreadyContainsGETParams
@@ -63,12 +61,10 @@
   NSURL *url = [urlGenerator url];
   NSString *urlString = [url absoluteString];
   
-  NSLog(@"%@", urlString);
-  
   NSRange range = [urlString rangeOfString:@"&" options:NSBackwardsSearch];
   
-  NSAssert(range.location != NSNotFound, @"A & must exist in the URL");
-  NSAssert(range.length == 1, @"Only one & character should be found together");
+  XCTAssertFalse(range.location == NSNotFound, @"A & must exist in the URL");
+  XCTAssertEqual(range.length, 1u, @"Only one & character should be found together");
 }
 
 - (void)testURLGeneratorContainsVersionValueForVersionKey
@@ -84,13 +80,34 @@
   NSURL *url = [urlGenerator url];
   NSString *urlString = [url absoluteString];
   
-  NSLog(@"%@", urlString);
-  
   NSString *getKV = [NSString stringWithFormat:@"%@=%@", SSVCLatestVersionKey, versionKey];
   NSRange range = [urlString rangeOfString:getKV options:0];
+  NSUInteger kvLength = [getKV length];
   
-  NSAssert(range.location != NSNotFound, @"Key-value pair must occur in GET params");
-  NSAssert(range.length == [getKV length], @"Only one kv pair should be found together");
+  XCTAssertFalse(range.location == NSNotFound, @"Key-value pair must occur in GET params");
+  XCTAssertEqual(range.length, kvLength, @"Only one kv pair should be found together");
 }
+
+- (void)testURLGeneratorContainsVersionNumberValueForVersionNumberKey
+{
+  NSString *baseURL = @"http://www.foo.com?foo=bar";
+  NSString *versionKey = @"version_key";
+  NSNumber *versionNumber = @1;
+  
+  SSVCURLGenerator *urlGenerator = [[SSVCURLGenerator alloc] initWithBaseURL:baseURL
+                                                                  versionKey:versionKey
+                                                               versionNumber:versionNumber];
+  
+  NSURL *url = [urlGenerator url];
+  NSString *urlString = [url absoluteString];
+  
+  NSString *getKV = [NSString stringWithFormat:@"%@=%@", SSVCLatestVersionNumber, versionNumber];
+  NSRange range = [urlString rangeOfString:getKV options:0];
+  NSUInteger kvLength = [getKV length];
+  
+  XCTAssertFalse(range.location == NSNotFound, @"Key-value pair must occur in GET params");
+  XCTAssertEqual(range.length, kvLength, @"Only one kv pair should be found together");
+}
+
 
 @end
