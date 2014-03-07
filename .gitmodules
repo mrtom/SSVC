@@ -1,0 +1,3 @@
+[submodule "dependencies/ocmock"]
+	path = dependencies/ocmock
+	url = git@github.com:erikdoe/ocmock.git
