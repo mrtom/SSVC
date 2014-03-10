@@ -19,13 +19,9 @@
 
 @interface SSVCRequestRunner : NSObject <SSVCSchedulerDelegate>
 
-// Annoyingly we can't make SSVCRequestRunner immutable because
-// NSURLConnection needs a delegate, and it can't have a delegate
-// definted on it after initialisation :(
-@property (nonatomic, strong) SSVCURLConnection *connection;
-
 /// Designated initialiser
-- (id)initWithParser:(id<SSVCResponseParserProtocol>)parser
+- (id)initWithCallbackURL:(NSURL *)callback
+                parser:(id<SSVCResponseParserProtocol>)parser
                scheduler:(SSVCScheduler *)scheduler
            lastCheckDate:(NSDate *)lastCheckDate
                  success:(ssvc_fetch_success_block_t)success

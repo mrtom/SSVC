@@ -18,6 +18,7 @@ NSString *const kSSVCDefaultLatestVersionKey = @"0.0.0";
 
 @interface SSVCRequestRunner() <NSURLConnectionDataDelegate>
 
+@property (nonatomic, strong, readonly) NSURL *callbackURL;
 @property (nonatomic, strong, readonly) id<SSVCResponseParserProtocol>parser;
 @property (nonatomic, strong, readonly) SSVCScheduler *scheduler;
 @property (nonatomic, strong, readonly) NSDate *lastCheckDate;
@@ -52,13 +53,15 @@ NSString *const kSSVCDefaultLatestVersionKey = @"0.0.0";
 }
 
 // Designated initialiser
-- (id)initWithParser:(id<SSVCResponseParserProtocol>)parser
+- (id)initWithCallbackURL:(NSURL *)callback
+                parser:(id<SSVCResponseParserProtocol>)parser
                scheduler:(SSVCScheduler *)scheduler
            lastCheckDate:(NSDate *)lastCheckDate
                  success:(ssvc_fetch_success_block_t)success
                  failure:(ssvc_fetch_failure_block_t)failure;
 {
   if (self = [super init]) {
+    _callbackURL = callback;
     _parser = parser;
     _scheduler = scheduler;
     _lastCheckDate = lastCheckDate;
@@ -72,8 +75,10 @@ NSString *const kSSVCDefaultLatestVersionKey = @"0.0.0";
 
 - (void)checkVersion
 {
+  SSVCURLConnection *connection = [self newConnection];
+  
   __weak SSVCRequestRunner *weakSelf = self;
-  _connection.onComplete = ^(SSVCURLConnection *connection){
+  connection.onComplete = ^(SSVCURLConnection *connection){
     SSVCRequestRunner *strongSelf = weakSelf;
     if (strongSelf) {
       NSDate *now = [NSDate date];
@@ -86,7 +91,7 @@ NSString *const kSSVCDefaultLatestVersionKey = @"0.0.0";
       [strongSelf __restartScheduler];
     }
   };
-  _connection.onError = ^(NSError *error){
+  connection.onError = ^(NSError *error){
     SSVCRequestRunner *strongSelf = weakSelf;
     if (strongSelf) {
       [strongSelf __updateLastCheckDate:[NSDate date]];
@@ -95,10 +100,19 @@ NSString *const kSSVCDefaultLatestVersionKey = @"0.0.0";
     }
   };
   
-  [_connection start];
+  [connection start];
 }
 
 #pragma mark - Private instance methods
+
+- (SSVCURLConnection *)newConnection
+{
+  NSURLRequest *urlRequest = [NSURLRequest requestWithURL:_callbackURL];
+  SSVCURLConnection *urlConnection = [[SSVCURLConnection alloc] initWithRequest:urlRequest
+                                                                       delegate:self];
+  
+  return urlConnection;
+}
 
 - (void)__performCallbacksWithResponse:(SSVCResponse *)response error:(NSError *)error
 {

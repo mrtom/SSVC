@@ -99,18 +99,14 @@ NSString *const SSVCResponseFromLastVersionCheck = @"SSVCResponseFromLastVersion
 - (void)checkVersion
 {
   SSVCRequestRunner *runner = [[SSVCRequestRunner alloc]
-                               initWithParser:[[SSVCJSONParser alloc] init]
+                               initWithCallbackURL:_callbackURL
+                               parser:[[SSVCJSONParser alloc] init]
                                scheduler:_scheduler
                                lastCheckDate:[self __lastVersionCheckDateFromUserDefaults]
                                success:_success
                                failure:_failure];
   _scheduler.delegate = runner;
   
-  NSURLRequest *urlRequest = [NSURLRequest requestWithURL:_callbackURL];
-  SSVCURLConnection *urlConnection = [[SSVCURLConnection alloc] initWithRequest:urlRequest
-                                                                       delegate:runner];
-  runner.connection = urlConnection;
-
   [runner checkVersion];
 }
 
