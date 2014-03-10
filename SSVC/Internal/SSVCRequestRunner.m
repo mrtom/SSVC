@@ -75,7 +75,7 @@ NSString *const kSSVCDefaultLatestVersionKey = @"0.0.0";
 
 - (void)checkVersion
 {
-  SSVCURLConnection *connection = [self newConnection];
+  SSVCURLConnection *connection = [self __newConnection];
   
   __weak SSVCRequestRunner *weakSelf = self;
   connection.onComplete = ^(SSVCURLConnection *connection){
@@ -105,7 +105,7 @@ NSString *const kSSVCDefaultLatestVersionKey = @"0.0.0";
 
 #pragma mark - Private instance methods
 
-- (SSVCURLConnection *)newConnection
+- (SSVCURLConnection *)__newConnection
 {
   NSURLRequest *urlRequest = [NSURLRequest requestWithURL:_callbackURL];
   SSVCURLConnection *urlConnection = [[SSVCURLConnection alloc] initWithRequest:urlRequest
@@ -153,29 +153,32 @@ NSString *const kSSVCDefaultLatestVersionKey = @"0.0.0";
 {
   NSDictionary *defaultsDict = [SSVCRequestRunner defaultObjectsDict];
   NSDictionary *json = [_parser parseResponseFromData:responseData
-                                                         error:error];
+                                                error:error];
   
-  BOOL updateAvailable = [json objectForKey:SSVCUpdateAvailable] ? [[json objectForKey:SSVCUpdateAvailable] boolValue] : kSSVCDefaultUpdateAvailable;
-  BOOL updateRequired = [json objectForKey:SSVCUpdateRequired] ? [[json objectForKey:SSVCUpdateRequired] boolValue] : kSSVCDefaultUpdateRequired;
-  
-  NSNumber *updateAvailableSinceTime = [json objectForKey:SSVCUpdateAvailableSince];
-  NSDate *updateAvailableSinceDate;
-  if (updateAvailableSinceTime) {
-    updateAvailableSinceDate = [NSDate dateWithTimeIntervalSince1970:[updateAvailableSinceTime unsignedIntegerValue]];
-  } else {
-    updateAvailableSinceDate = defaultsDict[SSVCUpdateAvailableSince];
+  if (!error) {
+    BOOL updateAvailable = [json objectForKey:SSVCUpdateAvailable] ? [[json objectForKey:SSVCUpdateAvailable] boolValue] : kSSVCDefaultUpdateAvailable;
+    BOOL updateRequired = [json objectForKey:SSVCUpdateRequired] ? [[json objectForKey:SSVCUpdateRequired] boolValue] : kSSVCDefaultUpdateRequired;
+    
+    NSNumber *updateAvailableSinceTime = [json objectForKey:SSVCUpdateAvailableSince];
+    NSDate *updateAvailableSinceDate;
+    if (updateAvailableSinceTime) {
+      updateAvailableSinceDate = [NSDate dateWithTimeIntervalSince1970:[updateAvailableSinceTime unsignedIntegerValue]];
+    } else {
+      updateAvailableSinceDate = defaultsDict[SSVCUpdateAvailableSince];
+    }
+    
+    NSString *latestVersionKey = json[SSVCLatestVersionKey] ?: kSSVCDefaultLatestVersionKey;
+    NSNumber *latestVersionNumber = json[SSVCLatestVersionNumber] ?: defaultsDict[SSVCLatestVersionNumber];
+    
+    SSVCResponse *response = [[SSVCResponse alloc] initWithUpdateAvailable:updateAvailable
+                                                            updateRequired:updateRequired
+                                                      updateAvailableSince:updateAvailableSinceDate
+                                                          latestVersionKey:latestVersionKey
+                                                       latestVersionNumber:latestVersionNumber];
+    
+    return response;
   }
-  
-  NSString *latestVersionKey = json[SSVCLatestVersionKey] ?: kSSVCDefaultLatestVersionKey;
-  NSNumber *latestVersionNumber = json[SSVCLatestVersionNumber] ?: defaultsDict[SSVCLatestVersionNumber];
-  
-  SSVCResponse *response = [[SSVCResponse alloc] initWithUpdateAvailable:updateAvailable
-                                                          updateRequired:updateRequired
-                                                    updateAvailableSince:updateAvailableSinceDate
-                                                        latestVersionKey:latestVersionKey
-                                                     latestVersionNumber:latestVersionNumber];
-  
-  return response;
+  return nil;
 }
 
 #pragma mark - NSURLConnectionDataDelegate methods

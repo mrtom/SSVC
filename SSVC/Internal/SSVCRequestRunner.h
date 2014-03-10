@@ -17,7 +17,7 @@
 
 @class SSVCScheduler;
 
-@interface SSVCRequestRunner : NSObject <SSVCSchedulerDelegate>
+@interface SSVCRequestRunner : NSObject <SSVCSchedulerDelegate, NSURLConnectionDataDelegate>
 
 /// Designated initialiser
 - (id)initWithCallbackURL:(NSURL *)callback
