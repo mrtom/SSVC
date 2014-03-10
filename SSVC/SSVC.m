@@ -80,8 +80,8 @@ NSString *const SSVCResponseFromLastVersionCheck = @"SSVCResponseFromLastVersion
     [self __versionFromBundle];
     
     _scheduler = scheduler;
-    _success = success;
-    _failure = failure;
+    _success = [success copy];
+    _failure = [failure copy];
     
     SSVCURLGenerator *urlGenerator = [[SSVCURLGenerator alloc] initWithBaseURL:url
                                                                     versionKey:_versionKey

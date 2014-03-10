@@ -27,6 +27,8 @@
 		4540F35D18C46CAF00BA7575 /* SSVCTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4540F35C18C46CAF00BA7575 /* SSVCTests.m */; };
 		4540F36818C4746B00BA7575 /* SSVCResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 4540F36718C4746B00BA7575 /* SSVCResponse.m */; };
 		4540F36B18C49ADA00BA7575 /* SSVCURLConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 4540F36A18C49ADA00BA7575 /* SSVCURLConnection.m */; };
+		456F295718CE54D400E9F857 /* invalidResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 456F295618CE54D400E9F857 /* invalidResponse.json */; };
+		456F295D18CE575A00E9F857 /* validResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 456F295C18CE575A00E9F857 /* validResponse.json */; };
 		45FDFCD418C9ECED00E0A383 /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 45FDFCD118C9ECDA00E0A383 /* libOCMock.a */; };
 /* End PBXBuildFile section */
 
@@ -105,6 +107,8 @@
 		4540F36718C4746B00BA7575 /* SSVCResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSVCResponse.m; sourceTree = "<group>"; };
 		4540F36918C49ADA00BA7575 /* SSVCURLConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSVCURLConnection.h; sourceTree = "<group>"; };
 		4540F36A18C49ADA00BA7575 /* SSVCURLConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSVCURLConnection.m; sourceTree = "<group>"; };
+		456F295618CE54D400E9F857 /* invalidResponse.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = invalidResponse.json; sourceTree = "<group>"; };
+		456F295C18CE575A00E9F857 /* validResponse.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = validResponse.json; sourceTree = "<group>"; };
 		45EC4D1118CDA3BA00D95C17 /* SSVCRequestRunner_Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSVCRequestRunner_Internal.h; sourceTree = "<group>"; };
 		45FDFCC518C9ECDA00E0A383 /* OCMock.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = OCMock.xcodeproj; path = submodules/ocmock/Source/OCMock.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -220,6 +224,8 @@
 			children = (
 				4540F35818C46CAF00BA7575 /* SSVCTests-Info.plist */,
 				4540F35918C46CAF00BA7575 /* InfoPlist.strings */,
+				456F295618CE54D400E9F857 /* invalidResponse.json */,
+				456F295C18CE575A00E9F857 /* validResponse.json */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -337,6 +343,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				456F295718CE54D400E9F857 /* invalidResponse.json in Resources */,
+				456F295D18CE575A00E9F857 /* validResponse.json in Resources */,
 				4540F35B18C46CAF00BA7575 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
