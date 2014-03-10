@@ -7,12 +7,14 @@
 //
 
 #import <XCTest/XCTest.h>
-#import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
 
 #import <OCMock/OCMock.h>
 
 #import "SSVCJSONParser.h"
+#import "SSVCRequestRunner.h"
+#import "SSVCRequestRunner_Internal.h"
+#import "SSVCURLConnection.h"
+#import "SSVCResponseParserProtocol.h"
 
 @interface SSVCRequestRunnerTests : XCTestCase
 
@@ -44,15 +46,56 @@
 
 - (void)testFailureBlockIsCalledAfterUnsuccessfulJSONParse
 {
-  NSString *badJSON = @"blahblah:";
-  id mockJSONParser = [OCMockObject mockForClass:[SSVCJSONParser class]];
-  [[[mockJSONParser expect] andReturn:nil] parseJSONFromData:nil andError:nil];
+  NSError *error = [[NSError alloc] init];
+  NSData*data = [@"foo" dataUsingEncoding:NSUTF8StringEncoding];
   
+  id mockJSONParser = [OCMockObject mockForProtocol:@protocol(SSVCResponseParserProtocol)];
+  [[[mockJSONParser stub] andReturn:nil] parseResponseFromData:data error:&error];
   
-  id mockTableView = [OCMockObject mockForClass:[UITableView class]];
-//	[[[mockTableView expect] andReturn:nil] dequeueReusableCellWithIdentifier:@"HelloWorldCell"];
+  __block BOOL waitingForBlock = YES;
+  __block BOOL failureBlockCalled = NO;
+  
+  ssvc_fetch_success_block_t success = ^(SSVCResponse *response) {
+    XCTFail(@"Success block should not be called");
+    waitingForBlock = NO;
+  };
+  ssvc_fetch_failure_block_t failure = ^(NSError *error) {
+    failureBlockCalled = YES;
+    waitingForBlock = NO;
+  };
+  
+  id runner = [[SSVCRequestRunner alloc] initWithCallbackURL:[NSURL URLWithString:@"foo"]
+                                                                      parser:mockJSONParser
+                                                              scheduler:nil
+                                                          lastCheckDate:[NSDate distantPast]
+                                                                success:success
+                                                                failure:failure];
+  
+  SSVCURLConnection *connection = [[SSVCURLConnection alloc] initWithRequest:[NSURLRequest requestWithURL:nil] delegate:runner];
+  id connectionMock = [OCMockObject partialMockForObject:connection];
+  [[connectionMock stub] start];
 
-  [mockTableView verify];
+  id runnerMock = [OCMockObject partialMockForObject:runner];
+  [[[runnerMock stub] andReturn:connectionMock] __newConnection];
+  
+  // Run code
+  [runnerMock checkVersion];
+  
+  // Fake response from mock SSVCURLConnection
+  int statusCode = 200;
+  id responseMock = [OCMockObject mockForClass:[NSHTTPURLResponse class]];
+  [[[responseMock stub] andReturnValue:OCMOCK_VALUE(statusCode)] statusCode];
+
+  [runner connection:connectionMock didReceiveResponse:responseMock];
+  [runner connection:connectionMock didReceiveData:data];
+  [runner connectionDidFinishLoading:connectionMock];
+  
+  // Verify results
+  while(waitingForBlock) {
+    [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
+                             beforeDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
+  }
+  XCTAssertTrue(failureBlockCalled, @"Failure block must be called for this test to pass");
 }
 
 - (void)testLastResponseIsCorrectlySavedToNSUserDefaultsAfterSuccessfulFetch

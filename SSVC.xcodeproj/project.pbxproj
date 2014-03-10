@@ -105,6 +105,7 @@
 		4540F36718C4746B00BA7575 /* SSVCResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSVCResponse.m; sourceTree = "<group>"; };
 		4540F36918C49ADA00BA7575 /* SSVCURLConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSVCURLConnection.h; sourceTree = "<group>"; };
 		4540F36A18C49ADA00BA7575 /* SSVCURLConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSVCURLConnection.m; sourceTree = "<group>"; };
+		45EC4D1118CDA3BA00D95C17 /* SSVCRequestRunner_Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSVCRequestRunner_Internal.h; sourceTree = "<group>"; };
 		45FDFCC518C9ECDA00E0A383 /* OCMock.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = OCMock.xcodeproj; path = submodules/ocmock/Source/OCMock.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -136,6 +137,7 @@
 			isa = PBXGroup;
 			children = (
 				4512D11A18C8F62200F1C3F2 /* SSVCRequestRunner.h */,
+				45EC4D1118CDA3BA00D95C17 /* SSVCRequestRunner_Internal.h */,
 				4512D11B18C8F62200F1C3F2 /* SSVCRequestRunner.m */,
 				4512D12018C8F79E00F1C3F2 /* SSVCResponseParserProtocol.h */,
 				4512D11D18C8F6ED00F1C3F2 /* SSVCJSONParser.h */,
