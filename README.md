@@ -53,8 +53,6 @@ SSVC expects your server to return a simple JSON object, with the following form
 
 ```JSON
 {
-  "SSVCUpdateAvailable": 1,
-  "SSVCUpdateRequired": 0,
   "SSVCUpdateAvailableSince": 1388750400,
   "SSVCLatestVersionKey": "1.0",
   "SSVCLatestVersionNumber": 16809984
@@ -65,8 +63,6 @@ SSVC expects your server to return a simple JSON object, with the following form
 
 | Name | Description | Permitted Values/Type | Required | Default |
 | ---- | ----------- | --------------------- | -------- | ------- |
-| SSVCUpdateAvailable | Is a more recent version of your application available? | 1 (Yes) or 0 (No) | No | 0 |
-| SSVCUpdateRequired | Is the more recent version of your application a required update? For example, after a breaking change in your API | 1 (Yes) or 0 (No) | No | 0 |
 | SSVCUpdateAvailableSince | The date since the most recent update was available | Any valid Unix timestamp (i.e. seconds since the epoc, January 1st 1970, UTC - http://en.wikipedia.org/wiki/Unix_timestamp) | No | ```[NSDate distantPast]``` |
 | SSVCLatestVersionKey | The iOS Version Key for your latest build, as found in your App bundle | A string of the form X.Y.Z, for X = [0-99] and Y & Z = [0-9] | No | 0.0.0 |
 | SSVCLatestVersionNumber | The iOS Version Number for your latest build, as found in your App bundle | An Unsigned Integer | No | 0 |
