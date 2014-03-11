@@ -1,3 +1,4 @@
 language: objective-c
 xcode_project: SSVC.xcodeproj 
 xcode_scheme: SSVC
+xcode_sdk: iphonesimulator7.0

@@ -29,34 +29,34 @@
 		4540F36B18C49ADA00BA7575 /* SSVCURLConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 4540F36A18C49ADA00BA7575 /* SSVCURLConnection.m */; };
 		456F295718CE54D400E9F857 /* invalidResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 456F295618CE54D400E9F857 /* invalidResponse.json */; };
 		456F295D18CE575A00E9F857 /* validResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 456F295C18CE575A00E9F857 /* validResponse.json */; };
-		45FDFCD418C9ECED00E0A383 /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 45FDFCD118C9ECDA00E0A383 /* libOCMock.a */; };
+		456F297C18CF12EB00E9F857 /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 456F297918CF129000E9F857 /* libOCMock.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		45FDFCCC18C9ECDA00E0A383 /* PBXContainerItemProxy */ = {
+		456F297418CF129000E9F857 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 45FDFCC518C9ECDA00E0A383 /* OCMock.xcodeproj */;
+			containerPortal = 456F296D18CF129000E9F857 /* OCMock.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 030EF0A814632FD000B04273;
 			remoteInfo = OCMock;
 		};
-		45FDFCCE18C9ECDA00E0A383 /* PBXContainerItemProxy */ = {
+		456F297618CF129000E9F857 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 45FDFCC518C9ECDA00E0A383 /* OCMock.xcodeproj */;
+			containerPortal = 456F296D18CF129000E9F857 /* OCMock.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 030EF0C014632FD000B04273;
 			remoteInfo = OCMockTests;
 		};
-		45FDFCD018C9ECDA00E0A383 /* PBXContainerItemProxy */ = {
+		456F297818CF129000E9F857 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 45FDFCC518C9ECDA00E0A383 /* OCMock.xcodeproj */;
+			containerPortal = 456F296D18CF129000E9F857 /* OCMock.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 030EF0DC14632FF700B04273;
 			remoteInfo = OCMockLib;
 		};
-		45FDFCD218C9ECDA00E0A383 /* PBXContainerItemProxy */ = {
+		456F297A18CF129000E9F857 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 45FDFCC518C9ECDA00E0A383 /* OCMock.xcodeproj */;
+			containerPortal = 456F296D18CF129000E9F857 /* OCMock.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = D31108AD1828DB8700737925;
 			remoteInfo = OCMockLibTests;
@@ -109,8 +109,8 @@
 		4540F36A18C49ADA00BA7575 /* SSVCURLConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSVCURLConnection.m; sourceTree = "<group>"; };
 		456F295618CE54D400E9F857 /* invalidResponse.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = invalidResponse.json; sourceTree = "<group>"; };
 		456F295C18CE575A00E9F857 /* validResponse.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = validResponse.json; sourceTree = "<group>"; };
+		456F296D18CF129000E9F857 /* OCMock.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = OCMock.xcodeproj; path = submodules/ocmock/Source/OCMock.xcodeproj; sourceTree = "<group>"; };
 		45EC4D1118CDA3BA00D95C17 /* SSVCRequestRunner_Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSVCRequestRunner_Internal.h; sourceTree = "<group>"; };
-		45FDFCC518C9ECDA00E0A383 /* OCMock.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = OCMock.xcodeproj; path = submodules/ocmock/Source/OCMock.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,7 +126,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				45FDFCD418C9ECED00E0A383 /* libOCMock.a in Frameworks */,
+				456F297C18CF12EB00E9F857 /* libOCMock.a in Frameworks */,
 				4540F34F18C46CAF00BA7575 /* XCTest.framework in Frameworks */,
 				4540F35218C46CAF00BA7575 /* UIKit.framework in Frameworks */,
 				4540F35518C46CAF00BA7575 /* libSSVC.a in Frameworks */,
@@ -179,7 +179,7 @@
 				4540F34018C46CAF00BA7575 /* Foundation.framework */,
 				4540F34E18C46CAF00BA7575 /* XCTest.framework */,
 				4540F35118C46CAF00BA7575 /* UIKit.framework */,
-				45FDFCC518C9ECDA00E0A383 /* OCMock.xcodeproj */,
+				456F296D18CF129000E9F857 /* OCMock.xcodeproj */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -230,13 +230,13 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		45FDFCC618C9ECDA00E0A383 /* Products */ = {
+		456F296E18CF129000E9F857 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				45FDFCCD18C9ECDA00E0A383 /* OCMock.framework */,
-				45FDFCCF18C9ECDA00E0A383 /* OCMockTests.octest */,
-				45FDFCD118C9ECDA00E0A383 /* libOCMock.a */,
-				45FDFCD318C9ECDA00E0A383 /* OCMockLibTests.octest */,
+				456F297518CF129000E9F857 /* OCMock.framework */,
+				456F297718CF129000E9F857 /* OCMockTests.octest */,
+				456F297918CF129000E9F857 /* libOCMock.a */,
+				456F297B18CF129000E9F857 /* OCMockLibTests.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -295,8 +295,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 45FDFCC618C9ECDA00E0A383 /* Products */;
-					ProjectRef = 45FDFCC518C9ECDA00E0A383 /* OCMock.xcodeproj */;
+					ProductGroup = 456F296E18CF129000E9F857 /* Products */;
+					ProjectRef = 456F296D18CF129000E9F857 /* OCMock.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -308,32 +308,32 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		45FDFCCD18C9ECDA00E0A383 /* OCMock.framework */ = {
+		456F297518CF129000E9F857 /* OCMock.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = OCMock.framework;
-			remoteRef = 45FDFCCC18C9ECDA00E0A383 /* PBXContainerItemProxy */;
+			remoteRef = 456F297418CF129000E9F857 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		45FDFCCF18C9ECDA00E0A383 /* OCMockTests.octest */ = {
+		456F297718CF129000E9F857 /* OCMockTests.octest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = OCMockTests.octest;
-			remoteRef = 45FDFCCE18C9ECDA00E0A383 /* PBXContainerItemProxy */;
+			remoteRef = 456F297618CF129000E9F857 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		45FDFCD118C9ECDA00E0A383 /* libOCMock.a */ = {
+		456F297918CF129000E9F857 /* libOCMock.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libOCMock.a;
-			remoteRef = 45FDFCD018C9ECDA00E0A383 /* PBXContainerItemProxy */;
+			remoteRef = 456F297818CF129000E9F857 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		45FDFCD318C9ECDA00E0A383 /* OCMockLibTests.octest */ = {
+		456F297B18CF129000E9F857 /* OCMockLibTests.octest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = OCMockLibTests.octest;
-			remoteRef = 45FDFCD218C9ECDA00E0A383 /* PBXContainerItemProxy */;
+			remoteRef = 456F297A18CF129000E9F857 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
