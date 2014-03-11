@@ -28,20 +28,6 @@
             buildForAnalyzing = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "030EF0A714632FD000B04273"
-               BuildableName = "OCMock.framework"
-               BlueprintName = "OCMock"
-               ReferencedContainer = "container:submodules/ocmock/Source/OCMock.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "NO"
-            buildForProfiling = "NO"
-            buildForArchiving = "NO"
-            buildForAnalyzing = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
                BlueprintIdentifier = "030EF0DB14632FF700B04273"
                BuildableName = "libOCMock.a"
                BlueprintName = "OCMockLib"
