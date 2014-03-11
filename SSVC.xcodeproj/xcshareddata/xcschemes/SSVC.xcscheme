@@ -31,7 +31,7 @@
                BlueprintIdentifier = "030EF0A714632FD000B04273"
                BuildableName = "OCMock.framework"
                BlueprintName = "OCMock"
-               ReferencedContainer = "container:dependencies/ocmock/Source/OCMock.xcodeproj">
+               ReferencedContainer = "container:submodules/ocmock/Source/OCMock.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -45,7 +45,7 @@
                BlueprintIdentifier = "030EF0DB14632FF700B04273"
                BuildableName = "libOCMock.a"
                BlueprintName = "OCMockLib"
-               ReferencedContainer = "container:dependencies/ocmock/Source/OCMock.xcodeproj">
+               ReferencedContainer = "container:submodules/ocmock/Source/OCMock.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
