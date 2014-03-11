@@ -138,7 +138,40 @@
 
 - (void)testLastResponseIsCorrectlySavedToNSUserDefaultsAfterSuccessfulFetch
 {
+  __block BOOL waitingForBlock = YES;
+  __block BOOL successBlockCalled = NO;
   
+  ssvc_fetch_success_block_t success = ^(SSVCResponse *response) {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSData *archivedResponseData = [userDefaults objectForKey:SSVCResponseFromLastVersionCheck];
+    SSVCResponse *archivedResponse = [NSKeyedUnarchiver unarchiveObjectWithData:archivedResponseData];
+    
+    XCTAssertEqualObjects(archivedResponse, response, @"The returned response should be equal to the archived response");
+    
+    successBlockCalled = YES;
+    waitingForBlock = NO;
+  };
+  ssvc_fetch_failure_block_t failure = ^(NSError *error) {
+    XCTFail(@"Failure block should not be called");
+    waitingForBlock = NO;
+  };
+  
+  NSBundle *testBundle = [NSBundle bundleForClass:[self class]];
+  NSURL *testResponseURL = [testBundle URLForResource:@"validResponse" withExtension:@"json"];
+  
+  id runner = [[SSVCRequestRunner alloc] initWithCallbackURL:testResponseURL
+                                                      parser:[SSVCJSONParser new]
+                                                   scheduler:nil
+                                               lastCheckDate:[NSDate distantPast]
+                                                     success:success
+                                                     failure:failure];
+  [runner checkVersion];
+  
+  // Verify results
+  while(waitingForBlock) {
+    [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
+                             beforeDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
+  }
 }
 
 - (void)testSavedResponseIsNotUpdatedAfterUnsuccessfulFetch
@@ -148,7 +181,42 @@
 
 - (void)testLastVersionCheckDateIsSavedToNSUserDefaults
 {
+  __block BOOL waitingForBlock = YES;
+  __block BOOL successBlockCalled = NO;
   
+  ssvc_fetch_success_block_t success = ^(SSVCResponse *response) {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    
+    NSDate *now = [NSDate date];
+    NSDate *lastCheckDate = [userDefaults objectForKey:SSVCDateOfLastVersionCheck];
+    NSTimeInterval timeDifference = [lastCheckDate timeIntervalSinceDate:now];
+    
+    XCTAssertTrue(timeDifference < 1, @"Last check date should have been updated recently. Now: %@, last check date: %@", now, lastCheckDate);
+    
+    successBlockCalled = YES;
+    waitingForBlock = NO;
+  };
+  ssvc_fetch_failure_block_t failure = ^(NSError *error) {
+    XCTFail(@"Failure block should not be called");
+    waitingForBlock = NO;
+  };
+  
+  NSBundle *testBundle = [NSBundle bundleForClass:[self class]];
+  NSURL *testResponseURL = [testBundle URLForResource:@"validResponse" withExtension:@"json"];
+  
+  id runner = [[SSVCRequestRunner alloc] initWithCallbackURL:testResponseURL
+                                                      parser:[SSVCJSONParser new]
+                                                   scheduler:nil
+                                               lastCheckDate:[NSDate distantPast]
+                                                     success:success
+                                                     failure:failure];
+  [runner checkVersion];
+  
+  // Verify results
+  while(waitingForBlock) {
+    [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
+                             beforeDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
+  }
 }
 
 // TODO: Test more like this, for the range of expected values
