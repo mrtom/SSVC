@@ -20,9 +20,10 @@ NSString *const SSVCCallbackURLKey = @"SSVCCallbackURL";
 NSString *const SSVCDateOfLastVersionCheck = @"SSVCDateOfLastVersionCheck";
 NSString *const SSVCUpdateAvailable = @"SSVCUpdateAvailable";
 NSString *const SSVCUpdateRequired = @"SSVCUpdateRequired";
-NSString *const SSVCUpdateAvailableSince = @"SSVCUpdateAvailableSince";
+NSString *const SSVCMinimumSupportedVersionNumber = @"SSVCMinimumSupportedVersionNumber";
 NSString *const SSVCLatestVersionKey = @"SSVCLatestVersionKey";
 NSString *const SSVCLatestVersionNumber = @"SSVCLatestVersionNumber";
+NSString *const SSVCLatestVersionAvailableSince = @"SSVCLatestVersionAvailableSince";
 
 NSString *const SSVCResponseFromLastVersionCheck = @"SSVCResponseFromLastVersionCheck";
 

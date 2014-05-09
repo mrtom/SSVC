@@ -14,6 +14,7 @@
 
 BOOL const kSSVCDefaultUpdateAvailable = NO;
 BOOL const kSSVCDefaultUpdateRequired = NO;
+NSUInteger const kSSVCDefaultMinimumSupportedVersionNumber = 0;
 NSString *const kSSVCDefaultLatestVersionKey = @"0.0.0";
 
 @interface SSVCRequestRunner() <NSURLConnectionDataDelegate>
@@ -37,7 +38,7 @@ NSString *const kSSVCDefaultLatestVersionKey = @"0.0.0";
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
     defaultDict = @{
-                    SSVCUpdateAvailableSince: [NSDate distantPast],
+                    SSVCLatestVersionAvailableSince: [NSDate distantPast],
                     SSVCLatestVersionNumber: @0
                     };
   });
@@ -158,23 +159,26 @@ NSString *const kSSVCDefaultLatestVersionKey = @"0.0.0";
                                                 error:error];
   
   if (json) {
-    NSNumber *updateAvailableSinceTime = [json objectForKey:SSVCUpdateAvailableSince];
+    NSNumber *minimumSupportedVersionNumber = json[SSVCMinimumSupportedVersionNumber] ?: @(kSSVCDefaultMinimumSupportedVersionNumber);
+    
+    NSNumber *updateAvailableSinceTime = [json objectForKey:SSVCLatestVersionAvailableSince];
     NSDate *updateAvailableSinceDate;
     if (updateAvailableSinceTime) {
       updateAvailableSinceDate = [NSDate dateWithTimeIntervalSince1970:[updateAvailableSinceTime integerValue]];
     } else {
-      updateAvailableSinceDate = defaultsDict[SSVCUpdateAvailableSince];
+      updateAvailableSinceDate = defaultsDict[SSVCLatestVersionAvailableSince];
     }
     
     NSString *latestVersionKey = json[SSVCLatestVersionKey] ?: kSSVCDefaultLatestVersionKey;
     NSNumber *latestVersionNumber = json[SSVCLatestVersionNumber] ?: defaultsDict[SSVCLatestVersionNumber];
     
-    // Determine if update is available:
+    // Determine if update is available/required:
     BOOL updateAvailable = [self __calculateIfUpdateAvailableForVersionKey:latestVersionKey versionNumber:latestVersionNumber];
-    BOOL updateRequired = kSSVCDefaultUpdateRequired; // FIXME: TODO
+    BOOL updateRequired = [self __calculateMfUpdateRequiredWithMinimumSupportedVersionNumber:minimumSupportedVersionNumber];
     
     response = [[SSVCResponse alloc] initWithUpdateAvailable:updateAvailable
                                                             updateRequired:updateRequired
+                                             minimumSupportedVersionNumber:minimumSupportedVersionNumber
                                                       updateAvailableSince:updateAvailableSinceDate
                                                           latestVersionKey:latestVersionKey
                                                        latestVersionNumber:latestVersionNumber];
@@ -215,6 +219,28 @@ NSString *const kSSVCDefaultLatestVersionKey = @"0.0.0";
   }
   
   return updateAvailable;
+}
+
+- (BOOL)__calculateMfUpdateRequiredWithMinimumSupportedVersionNumber:(NSNumber *)minimumSupportedVersionNumber
+{
+  NSDictionary *defaultsDict = [SSVCRequestRunner defaultObjectsDict];
+  BOOL updateRequired;
+  
+  if (![minimumSupportedVersionNumber isEqual:defaultsDict[SSVCMinimumSupportedVersionNumber]]) {
+    NSNumber *currentVersionNumber = [NSNumber numberWithUnsignedInteger:CFBundleGetVersionNumber(CFBundleGetMainBundle())];
+    NSComparisonResult result = [minimumSupportedVersionNumber compare:currentVersionNumber];
+    
+    if (result == NSOrderedDescending) {
+      updateRequired = YES;
+    } else {
+      updateRequired = NO;
+    }
+  } else {
+    NSLog(@"Error: Attempting to check if new version is available without a version number of a version key. Setting to default");
+    updateRequired = kSSVCDefaultUpdateRequired;
+  }
+  
+  return updateRequired;
 }
 
 #pragma mark - NSURLConnectionDataDelegate methods

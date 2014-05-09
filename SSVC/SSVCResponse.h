@@ -12,6 +12,7 @@
 
 @property (nonatomic, assign, readonly) BOOL updateAvailable;
 @property (nonatomic, assign, readonly) BOOL updateRequired;
+@property (nonatomic, assign, readonly) NSNumber *minimumSupportedVersionNumber;
 @property (nonatomic, strong, readonly) NSDate *updateAvailableSince;
 @property (nonatomic, strong, readonly) NSString *versionKey;
 @property (nonatomic, strong, readonly) NSNumber *versionNumber;
@@ -19,6 +20,7 @@
 /// Designated initialiser
 - (id)initWithUpdateAvailable:(BOOL)updateAvailable
                updateRequired:(BOOL)updateRequired
+minimumSupportedVersionNumber:(NSNumber *)minimumSupportedVersionNumber
          updateAvailableSince:(NSDate *)updateAvailableSince
              latestVersionKey:(NSString *)versionKey
           latestVersionNumber:(NSNumber *)versionNumber;
