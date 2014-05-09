@@ -176,7 +176,83 @@
 
 - (void)testSavedResponseIsNotUpdatedAfterUnsuccessfulFetch
 {
+  id mockJSONParser = [OCMockObject mockForProtocol:@protocol(SSVCResponseParserProtocol)];
+  [[[mockJSONParser stub] andReturn:nil] parseResponseFromData:[OCMArg any] error:((NSError * __autoreleasing *)[OCMArg anyPointer])];
   
+  NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+  id savedResponseBefore = [userDefaults objectForKey:SSVCResponseFromLastVersionCheck];
+  
+  __block BOOL waitingForBlock = YES;
+  
+  ssvc_fetch_success_block_t success = ^(SSVCResponse *response) {
+    XCTFail(@"Success block should not be called");
+    waitingForBlock = NO;
+  };
+  ssvc_fetch_failure_block_t failure = ^(NSError *error) {
+    waitingForBlock = NO;
+  };
+  
+  NSBundle *testBundle = [NSBundle bundleForClass:[self class]];
+  NSURL *testResponseURL = [testBundle URLForResource:@"invalidResponse" withExtension:@"json"];
+  
+  id runner = [[SSVCRequestRunner alloc] initWithCallbackURL:testResponseURL
+                                                      parser:mockJSONParser
+                                                   scheduler:nil
+                                               lastCheckDate:[NSDate distantPast]
+                                                     success:success
+                                                     failure:failure];
+  [runner checkVersion];
+  
+  // Verify results
+  while(waitingForBlock) {
+    [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
+                             beforeDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
+  }
+  
+  id savedResponseAfter = [userDefaults objectForKey:SSVCResponseFromLastVersionCheck];
+  
+  XCTAssertEqual(savedResponseBefore, savedResponseAfter, @"Response should not be saved after unsuccessful fetch");
+}
+
+- (void)testLastVersionCheckDateIsUpdatedAfterUnsuccessfulFetch
+{
+  id mockJSONParser = [OCMockObject mockForProtocol:@protocol(SSVCResponseParserProtocol)];
+  [[[mockJSONParser stub] andReturn:nil] parseResponseFromData:[OCMArg any] error:((NSError * __autoreleasing *)[OCMArg anyPointer])];
+  
+  NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+  id dateBefore = [userDefaults objectForKey:SSVCDateOfLastVersionCheck];
+  
+  __block BOOL waitingForBlock = YES;
+  
+  ssvc_fetch_success_block_t success = ^(SSVCResponse *response) {
+    XCTFail(@"Success block should not be called");
+    waitingForBlock = NO;
+  };
+  ssvc_fetch_failure_block_t failure = ^(NSError *error) {
+    waitingForBlock = NO;
+  };
+  
+  NSBundle *testBundle = [NSBundle bundleForClass:[self class]];
+  NSURL *testResponseURL = [testBundle URLForResource:@"invalidResponse" withExtension:@"json"];
+  
+  id runner = [[SSVCRequestRunner alloc] initWithCallbackURL:testResponseURL
+                                                      parser:mockJSONParser
+                                                   scheduler:nil
+                                               lastCheckDate:[NSDate distantPast]
+                                                     success:success
+                                                     failure:failure];
+  [runner checkVersion];
+  
+  // Verify results
+  while(waitingForBlock) {
+    [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
+                             beforeDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
+  }
+  
+  id dateAfter = [userDefaults objectForKey:SSVCDateOfLastVersionCheck];
+  
+  XCTAssertNotEqual(dateBefore, dateAfter, @"Response should not be saved after unsuccessful fetch. Before: %@, after: %@", dateBefore, dateAfter);
+  XCTAssertNotNil(dateAfter, @"Date should be set after unsuccessful fetch");
 }
 
 - (void)testLastVersionCheckDateIsSavedToNSUserDefaults
