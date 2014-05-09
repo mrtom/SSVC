@@ -24,7 +24,6 @@
 		4540F35218C46CAF00BA7575 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4540F35118C46CAF00BA7575 /* UIKit.framework */; };
 		4540F35518C46CAF00BA7575 /* libSSVC.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4540F33D18C46CAF00BA7575 /* libSSVC.a */; };
 		4540F35B18C46CAF00BA7575 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4540F35918C46CAF00BA7575 /* InfoPlist.strings */; };
-		4540F35D18C46CAF00BA7575 /* SSVCTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4540F35C18C46CAF00BA7575 /* SSVCTests.m */; };
 		4540F36818C4746B00BA7575 /* SSVCResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 4540F36718C4746B00BA7575 /* SSVCResponse.m */; };
 		4540F36B18C49ADA00BA7575 /* SSVCURLConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 4540F36A18C49ADA00BA7575 /* SSVCURLConnection.m */; };
 		456F295718CE54D400E9F857 /* invalidResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 456F295618CE54D400E9F857 /* invalidResponse.json */; };
@@ -102,7 +101,6 @@
 		4540F35118C46CAF00BA7575 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		4540F35818C46CAF00BA7575 /* SSVCTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SSVCTests-Info.plist"; sourceTree = "<group>"; };
 		4540F35A18C46CAF00BA7575 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		4540F35C18C46CAF00BA7575 /* SSVCTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SSVCTests.m; sourceTree = "<group>"; };
 		4540F36618C4746B00BA7575 /* SSVCResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSVCResponse.h; sourceTree = "<group>"; };
 		4540F36718C4746B00BA7575 /* SSVCResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSVCResponse.m; sourceTree = "<group>"; };
 		4540F36918C49ADA00BA7575 /* SSVCURLConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSVCURLConnection.h; sourceTree = "<group>"; };
@@ -211,7 +209,6 @@
 		4540F35618C46CAF00BA7575 /* SSVCTests */ = {
 			isa = PBXGroup;
 			children = (
-				4540F35C18C46CAF00BA7575 /* SSVCTests.m */,
 				4512D12B18C9073400F1C3F2 /* SSVCRequestRunnerTests.m */,
 				4512D12E18C9078400F1C3F2 /* SSVCURLGeneratorTests.m */,
 				4540F35718C46CAF00BA7575 /* Supporting Files */,
@@ -371,7 +368,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				4512D12C18C9073400F1C3F2 /* SSVCRequestRunnerTests.m in Sources */,
-				4540F35D18C46CAF00BA7575 /* SSVCTests.m in Sources */,
 				4512D12F18C9078400F1C3F2 /* SSVCURLGeneratorTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
