@@ -46,14 +46,13 @@ The primary class of SSVC is called... SSVC! For the most basic usage:
 
 * This will cause SSVC to send an HTTP GET request to the server you specified above with the following parameters:
     * ```SSVCLatestVersionKey``` - The version key of the application currently running, i.e. 1.0
-    * ```SSVCLatestVersionNumber``` - The vesrion (build) number of the application currently running, i.e. 16809984
-    * ```SSVCClientProtocolVersion``` - The version of the protocol used by SSVC, currently 1
 
 SSVC expects your server to return a simple JSON object, with the following format. Note, all fields are optional:
 
 ```JSON
 {
-  "SSVCUpdateAvailableSince": 1388750400,
+  "SSVCMinimumSupportedVersionNumber": 16800000,
+  "SSVCLatestVersionAvailableSince": 1388750400,
   "SSVCLatestVersionKey": "1.0",
   "SSVCLatestVersionNumber": 16809984
  }
@@ -63,7 +62,8 @@ SSVC expects your server to return a simple JSON object, with the following form
 
 | Name | Description | Permitted Values/Type | Required | Default |
 | ---- | ----------- | --------------------- | -------- | ------- |
-| SSVCUpdateAvailableSince | The date since the most recent update was available | Any valid Unix timestamp (i.e. seconds since the epoc, January 1st 1970, UTC - http://en.wikipedia.org/wiki/Unix_timestamp) | No | ```[NSDate distantPast]``` |
+| SSVCMinimumSupportedVersionNumber | The minimum version number of your client or API now supported. This allows you to tell the client to force an update | An Unsigned Integer | No | 0 |
+| SSVCLatestVersionAvailableSince | The date since the most recent update was available | Any valid Unix timestamp (i.e. seconds since the epoc, January 1st 1970, UTC - http://en.wikipedia.org/wiki/Unix_timestamp) | No | ```[NSDate distantPast]``` |
 | SSVCLatestVersionKey | The iOS Version Key for your latest build, as found in your App bundle | A string of the form X.Y.Z, for X = [0-99] and Y & Z = [0-9] | No | 0.0.0 |
 | SSVCLatestVersionNumber | The iOS Version Number for your latest build, as found in your App bundle | An Unsigned Integer | No | 0 |
 
@@ -76,6 +76,7 @@ An ```SSVCResponse``` objects contains the following (read only) properties, map
 | ---- | ---- |
 | updateAvailable | ```BOOL``` |
 | updateRequired  | ```BOOL``` |
+| minimumSupportedVersionNumber | ```NSDate *```|
 | updateAvailableSince | ```NSDate *``` |
 | latestVersionKey | ```NSString *``` |
 | latestVersionNumber | ```NSNumber``` |
