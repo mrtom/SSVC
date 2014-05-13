@@ -7,6 +7,14 @@ SSVC is a simple version checking client for iOS. It connects to a server you de
 
 ## Installation
 
+### Using CocoaPods
+* Add 'SSVC' to your Podfile, with something like:
+
+ `pod 'SSVC',       '~> 0.0.1'`
+* Run `pod install`, and open the Xcode workspace.
+* See http://cocoapods.org/ for more information on managing your dependencies with CocoaPods.
+
+### By hand
 * Download the project from Github (https://github.com/mrtom/SSVC), and unzip
 * Copy ```SSVC.xcodeproj``` into the 'frameworks' folder within Xcode for your project
 * Link ```libSSVC.a``` to your project:
