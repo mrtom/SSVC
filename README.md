@@ -5,7 +5,7 @@
 [![Build Status](https://travis-ci.org/mrtom/SSVC.png)](https://travis-ci.org/mrtom/SSVC)
 
 ## What is SSVC?
-SSVC is a simple version checking client for iOS. It connects to a server You designate and checks if a more recent version of your App is available. you decide how to consume this information and what to do next - for example displaying a prompt to take somebody to the App Store.
+SSVC is a simple version checking client for iOS. It connects to a server you designate and checks if a more recent version of your App is available. You decide how to consume this information and what to do next - for example displaying a prompt to take somebody to the App Store.
 
 ## Installation
 
@@ -120,9 +120,6 @@ Yes, the project is licensed under the pervasive MIT License. See http://opensou
 As far as I know there aren't any open APIs where this information can be retrieved from the Web. If you know others, please let me know!
 
 [Update: I'm looking into using the Apple Affiliate API. However, there are still reasons to support custom URLs as well. For example, dealing with beta testers using Test Flight]
-
-### Why don't you support CocoaPods?
-Firstly, because I haven't had the time yet. And secondly, because I don't use it myself. If you want CocoaPods support, let me know and I'm more likely to get around to it - or send me a diff! :)
 
 ### Why do you insist on calling the success block on the main thread?
 For the most part, I anticipate developers will want to invoke some sort of UI change when the update checker indicates an update is available. As UIKit isn't threadsafe, such updates need to be performed on the main thread.
