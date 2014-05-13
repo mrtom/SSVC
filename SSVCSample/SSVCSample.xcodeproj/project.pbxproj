@@ -21,7 +21,6 @@
 		4512D0ED18C869B600F1C3F2 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4512D0CF18C869B600F1C3F2 /* UIKit.framework */; };
 		4512D0F518C869B600F1C3F2 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4512D0F318C869B600F1C3F2 /* InfoPlist.strings */; };
 		4512D0F718C869B600F1C3F2 /* SSVCSampleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4512D0F618C869B600F1C3F2 /* SSVCSampleTests.m */; };
-		4512D10918C869E900F1C3F2 /* libSSVC.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4512D10618C869DD00F1C3F2 /* libSSVC.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -31,20 +30,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 4512D0C718C869B600F1C3F2;
 			remoteInfo = SSVCSample;
-		};
-		4512D10518C869DD00F1C3F2 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 4512D10018C869DD00F1C3F2 /* SSVC.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 4540F33D18C46CAF00BA7575;
-			remoteInfo = SSVC;
-		};
-		4512D10718C869DD00F1C3F2 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 4512D10018C869DD00F1C3F2 /* SSVC.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 4540F34D18C46CAF00BA7575;
-			remoteInfo = SSVCTests;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -68,7 +53,6 @@
 		4512D0F218C869B600F1C3F2 /* SSVCSampleTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SSVCSampleTests-Info.plist"; sourceTree = "<group>"; };
 		4512D0F418C869B600F1C3F2 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		4512D0F618C869B600F1C3F2 /* SSVCSampleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SSVCSampleTests.m; sourceTree = "<group>"; };
-		4512D10018C869DD00F1C3F2 /* SSVC.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SSVC.xcodeproj; path = ../SSVC.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,7 +60,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4512D10918C869E900F1C3F2 /* libSSVC.a in Frameworks */,
 				4512D0CE18C869B600F1C3F2 /* CoreGraphics.framework in Frameworks */,
 				4512D0D018C869B600F1C3F2 /* UIKit.framework in Frameworks */,
 				4512D0CC18C869B600F1C3F2 /* Foundation.framework in Frameworks */,
@@ -118,7 +101,6 @@
 		4512D0CA18C869B600F1C3F2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				4512D10018C869DD00F1C3F2 /* SSVC.xcodeproj */,
 				4512D0CB18C869B600F1C3F2 /* Foundation.framework */,
 				4512D0CD18C869B600F1C3F2 /* CoreGraphics.framework */,
 				4512D0CF18C869B600F1C3F2 /* UIKit.framework */,
@@ -168,15 +150,6 @@
 				4512D0F318C869B600F1C3F2 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		4512D10118C869DD00F1C3F2 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				4512D10618C869DD00F1C3F2 /* libSSVC.a */,
-				4512D10818C869DD00F1C3F2 /* SSVCTests.xctest */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -243,12 +216,6 @@
 			mainGroup = 4512D0BF18C869B600F1C3F2;
 			productRefGroup = 4512D0C918C869B600F1C3F2 /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 4512D10118C869DD00F1C3F2 /* Products */;
-					ProjectRef = 4512D10018C869DD00F1C3F2 /* SSVC.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				4512D0C718C869B600F1C3F2 /* SSVCSample */,
@@ -256,23 +223,6 @@
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		4512D10618C869DD00F1C3F2 /* libSSVC.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libSSVC.a;
-			remoteRef = 4512D10518C869DD00F1C3F2 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		4512D10818C869DD00F1C3F2 /* SSVCTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = SSVCTests.xctest;
-			remoteRef = 4512D10718C869DD00F1C3F2 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		4512D0C618C869B600F1C3F2 /* Resources */ = {
