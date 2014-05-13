@@ -12,7 +12,7 @@
 
 @property (nonatomic, assign, readonly) BOOL updateAvailable;
 @property (nonatomic, assign, readonly) BOOL updateRequired;
-@property (nonatomic, assign, readonly) NSNumber *minimumSupportedVersionNumber;
+@property (nonatomic, strong, readonly) NSNumber *minimumSupportedVersionNumber;
 @property (nonatomic, strong, readonly) NSDate *updateAvailableSince;
 @property (nonatomic, strong, readonly) NSString *versionKey;
 @property (nonatomic, strong, readonly) NSNumber *versionNumber;

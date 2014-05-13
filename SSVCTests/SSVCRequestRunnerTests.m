@@ -16,6 +16,12 @@
 #import "SSVCURLConnection.h"
 #import "SSVCResponseParserProtocol.h"
 
+static NSString *const kInvalidResponse = @"invalidResponse";
+static NSString *const kValidFullResponse = @"validFullResponse";
+static NSString *const kValidFullResponse2 = @"validFullResponse2";
+
+static NSString *const kValidResponseNoMinimumRequiredVersion = @"validResponseNoMinimumRequiredVersion";
+
 @interface SSVCRequestRunnerTests : XCTestCase
 
 @end
@@ -48,7 +54,7 @@
   };
   
   NSBundle *testBundle = [NSBundle bundleForClass:[self class]];
-  NSURL *testResponseURL = [testBundle URLForResource:@"validResponse" withExtension:@"json"];
+  NSURL *testResponseURL = [testBundle URLForResource:kValidFullResponse withExtension:@"json"];
   
   id runner = [[SSVCRequestRunner alloc] initWithCallbackURL:testResponseURL
                                                       parser:[SSVCJSONParser new]
@@ -118,7 +124,7 @@
   };
   
   NSBundle *testBundle = [NSBundle bundleForClass:[self class]];
-  NSURL *testResponseURL = [testBundle URLForResource:@"invalidResponse" withExtension:@"json"];
+  NSURL *testResponseURL = [testBundle URLForResource:kValidFullResponse withExtension:@"json"];
   
   id runner = [[SSVCRequestRunner alloc] initWithCallbackURL:testResponseURL
                                                       parser:mockJSONParser
@@ -157,7 +163,7 @@
   };
   
   NSBundle *testBundle = [NSBundle bundleForClass:[self class]];
-  NSURL *testResponseURL = [testBundle URLForResource:@"validResponse" withExtension:@"json"];
+  NSURL *testResponseURL = [testBundle URLForResource:kValidFullResponse withExtension:@"json"];
   
   id runner = [[SSVCRequestRunner alloc] initWithCallbackURL:testResponseURL
                                                       parser:[SSVCJSONParser new]
@@ -193,7 +199,7 @@
   };
   
   NSBundle *testBundle = [NSBundle bundleForClass:[self class]];
-  NSURL *testResponseURL = [testBundle URLForResource:@"invalidResponse" withExtension:@"json"];
+  NSURL *testResponseURL = [testBundle URLForResource:kInvalidResponse withExtension:@"json"];
   
   id runner = [[SSVCRequestRunner alloc] initWithCallbackURL:testResponseURL
                                                       parser:mockJSONParser
@@ -233,7 +239,7 @@
   };
   
   NSBundle *testBundle = [NSBundle bundleForClass:[self class]];
-  NSURL *testResponseURL = [testBundle URLForResource:@"invalidResponse" withExtension:@"json"];
+  NSURL *testResponseURL = [testBundle URLForResource:kInvalidResponse withExtension:@"json"];
   
   id runner = [[SSVCRequestRunner alloc] initWithCallbackURL:testResponseURL
                                                       parser:mockJSONParser
@@ -278,7 +284,7 @@
   };
   
   NSBundle *testBundle = [NSBundle bundleForClass:[self class]];
-  NSURL *testResponseURL = [testBundle URLForResource:@"validResponse" withExtension:@"json"];
+  NSURL *testResponseURL = [testBundle URLForResource:kValidFullResponse withExtension:@"json"];
   
   id runner = [[SSVCRequestRunner alloc] initWithCallbackURL:testResponseURL
                                                       parser:[SSVCJSONParser new]
@@ -296,12 +302,54 @@
 }
 
 // TODO: Test more like this, for the range of expected values
-- (void)testResponseContainsExpectedValues
+- (void)testValidResponseContainsExpectedValues
 {
   __block BOOL waitingForBlock = YES;
   __block BOOL successBlockCalled = NO;
   
   ssvc_fetch_success_block_t success = ^(SSVCResponse *response) {
+    XCTAssertEqualObjects(response.minimumSupportedVersionNumber, @16809984, @"Minimum supported version number should be \"16809984\"");
+    XCTAssertEqualObjects(@(response.updateAvailable), @YES, @"An update should be marked as available");
+    XCTAssertEqualObjects(@(response.updateRequired), @YES, @"An update is required");
+    XCTAssertEqualObjects(response.updateAvailableSince, [NSDate dateWithTimeIntervalSince1970:1388750400], @"The update available since date should be since timestamp 1388750400");
+    XCTAssertEqualObjects(response.versionKey, @"1.0", @"Version key should be \"1.0\"");
+    XCTAssertEqualObjects(response.versionNumber, @16809984, @"Version number should be \"16809984\"");
+    
+    successBlockCalled = YES;
+    waitingForBlock = NO;
+  };
+  ssvc_fetch_failure_block_t failure = ^(NSError *error) {
+    XCTFail(@"Failure block should not be called");
+    waitingForBlock = NO;
+  };
+  
+  NSBundle *testBundle = [NSBundle bundleForClass:[self class]];
+  NSURL *testResponseURL = [testBundle URLForResource:kValidFullResponse withExtension:@"json"];
+  
+  id runner = [[SSVCRequestRunner alloc] initWithCallbackURL:testResponseURL
+                                                      parser:[SSVCJSONParser new]
+                                                   scheduler:nil
+                                               lastCheckDate:[NSDate distantPast]
+                                                     success:success
+                                                     failure:failure];
+  [runner checkVersion];
+  
+  // Verify results
+  while(waitingForBlock) {
+    [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
+                             beforeDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
+  }
+  XCTAssertTrue(successBlockCalled, @"Success block must be called for this test to pass");
+}
+
+// Minimum supported version number explicitly set to 0
+- (void)testValidResponse2ContainsExpectedValues
+{
+  __block BOOL waitingForBlock = YES;
+  __block BOOL successBlockCalled = NO;
+  
+  ssvc_fetch_success_block_t success = ^(SSVCResponse *response) {
+    XCTAssertEqualObjects(response.minimumSupportedVersionNumber, @0, @"Minimum supported version number should be \"16809984\"");
     XCTAssertEqualObjects(@(response.updateAvailable), @YES, @"An update should be marked as available");
     XCTAssertEqualObjects(@(response.updateRequired), @NO, @"An update is not required");
     XCTAssertEqualObjects(response.updateAvailableSince, [NSDate dateWithTimeIntervalSince1970:1388750400], @"The update available since date should be since timestamp 1388750400");
@@ -317,7 +365,48 @@
   };
   
   NSBundle *testBundle = [NSBundle bundleForClass:[self class]];
-  NSURL *testResponseURL = [testBundle URLForResource:@"validResponse" withExtension:@"json"];
+  NSURL *testResponseURL = [testBundle URLForResource:kValidFullResponse2 withExtension:@"json"];
+  
+  id runner = [[SSVCRequestRunner alloc] initWithCallbackURL:testResponseURL
+                                                      parser:[SSVCJSONParser new]
+                                                   scheduler:nil
+                                               lastCheckDate:[NSDate distantPast]
+                                                     success:success
+                                                     failure:failure];
+  [runner checkVersion];
+  
+  // Verify results
+  while(waitingForBlock) {
+    [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
+                             beforeDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
+  }
+  XCTAssertTrue(successBlockCalled, @"Success block must be called for this test to pass");
+}
+
+// Does not cotain minimum supported version number
+- (void)testValidResponse3ContainsExpectedValues
+{
+  __block BOOL waitingForBlock = YES;
+  __block BOOL successBlockCalled = NO;
+  
+  ssvc_fetch_success_block_t success = ^(SSVCResponse *response) {
+    XCTAssertEqualObjects(response.minimumSupportedVersionNumber, @0, @"Minimum supported version number should be \"16809984\"");
+    XCTAssertEqualObjects(@(response.updateAvailable), @YES, @"An update should be marked as available");
+    XCTAssertEqualObjects(@(response.updateRequired), @NO, @"An update is not required");
+    XCTAssertEqualObjects(response.updateAvailableSince, [NSDate dateWithTimeIntervalSince1970:1388750400], @"The update available since date should be since timestamp 1388750400");
+    XCTAssertEqualObjects(response.versionKey, @"1.0", @"Version key should be \"1.0\"");
+    XCTAssertEqualObjects(response.versionNumber, @16809984, @"Version number should be \"16809984\"");
+    
+    successBlockCalled = YES;
+    waitingForBlock = NO;
+  };
+  ssvc_fetch_failure_block_t failure = ^(NSError *error) {
+    XCTFail(@"Failure block should not be called");
+    waitingForBlock = NO;
+  };
+  
+  NSBundle *testBundle = [NSBundle bundleForClass:[self class]];
+  NSURL *testResponseURL = [testBundle URLForResource:kValidResponseNoMinimumRequiredVersion withExtension:@"json"];
   
   id runner = [[SSVCRequestRunner alloc] initWithCallbackURL:testResponseURL
                                                       parser:[SSVCJSONParser new]

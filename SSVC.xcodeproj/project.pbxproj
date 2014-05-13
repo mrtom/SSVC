@@ -12,6 +12,8 @@
 		4512D12418C8FEA300F1C3F2 /* SSVCURLGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 4512D12318C8FEA300F1C3F2 /* SSVCURLGenerator.m */; };
 		4512D12C18C9073400F1C3F2 /* SSVCRequestRunnerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4512D12B18C9073400F1C3F2 /* SSVCRequestRunnerTests.m */; };
 		4512D12F18C9078400F1C3F2 /* SSVCURLGeneratorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4512D12E18C9078400F1C3F2 /* SSVCURLGeneratorTests.m */; };
+		452EB3901921F0550007A43D /* validFullResponse2.json in Resources */ = {isa = PBXBuildFile; fileRef = 452EB38F1921F0550007A43D /* validFullResponse2.json */; };
+		452EB3961921F0C20007A43D /* validResponseNoMinimumRequiredVersion.json in Resources */ = {isa = PBXBuildFile; fileRef = 452EB3951921F0C20007A43D /* validResponseNoMinimumRequiredVersion.json */; };
 		452F367418C51BCC001EE399 /* SSVCScheduler.m in Sources */ = {isa = PBXBuildFile; fileRef = 452F367318C51BCC001EE399 /* SSVCScheduler.m */; };
 		452F369318C53041001EE399 /* SSVCResponse.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4540F36618C4746B00BA7575 /* SSVCResponse.h */; };
 		452F369418C53041001EE399 /* SSVCScheduler.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 452F367218C51BCC001EE399 /* SSVCScheduler.h */; };
@@ -27,7 +29,7 @@
 		4540F36818C4746B00BA7575 /* SSVCResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 4540F36718C4746B00BA7575 /* SSVCResponse.m */; };
 		4540F36B18C49ADA00BA7575 /* SSVCURLConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 4540F36A18C49ADA00BA7575 /* SSVCURLConnection.m */; };
 		456F295718CE54D400E9F857 /* invalidResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 456F295618CE54D400E9F857 /* invalidResponse.json */; };
-		456F295D18CE575A00E9F857 /* validResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 456F295C18CE575A00E9F857 /* validResponse.json */; };
+		456F295D18CE575A00E9F857 /* validFullResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 456F295C18CE575A00E9F857 /* validFullResponse.json */; };
 		456F297C18CF12EB00E9F857 /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 456F297918CF129000E9F857 /* libOCMock.a */; };
 /* End PBXBuildFile section */
 
@@ -88,6 +90,8 @@
 		4512D12318C8FEA300F1C3F2 /* SSVCURLGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSVCURLGenerator.m; sourceTree = "<group>"; };
 		4512D12B18C9073400F1C3F2 /* SSVCRequestRunnerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSVCRequestRunnerTests.m; sourceTree = "<group>"; };
 		4512D12E18C9078400F1C3F2 /* SSVCURLGeneratorTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSVCURLGeneratorTests.m; sourceTree = "<group>"; };
+		452EB38F1921F0550007A43D /* validFullResponse2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = validFullResponse2.json; sourceTree = "<group>"; };
+		452EB3951921F0C20007A43D /* validResponseNoMinimumRequiredVersion.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = validResponseNoMinimumRequiredVersion.json; sourceTree = "<group>"; };
 		452F367218C51BCC001EE399 /* SSVCScheduler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSVCScheduler.h; sourceTree = "<group>"; };
 		452F367318C51BCC001EE399 /* SSVCScheduler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSVCScheduler.m; sourceTree = "<group>"; };
 		452F367518C51E25001EE399 /* SSVCSchedulerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SSVCSchedulerDelegate.h; sourceTree = "<group>"; };
@@ -106,7 +110,7 @@
 		4540F36918C49ADA00BA7575 /* SSVCURLConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSVCURLConnection.h; sourceTree = "<group>"; };
 		4540F36A18C49ADA00BA7575 /* SSVCURLConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSVCURLConnection.m; sourceTree = "<group>"; };
 		456F295618CE54D400E9F857 /* invalidResponse.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = invalidResponse.json; sourceTree = "<group>"; };
-		456F295C18CE575A00E9F857 /* validResponse.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = validResponse.json; sourceTree = "<group>"; };
+		456F295C18CE575A00E9F857 /* validFullResponse.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = validFullResponse.json; sourceTree = "<group>"; };
 		456F296D18CF129000E9F857 /* OCMock.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = OCMock.xcodeproj; path = submodules/ocmock/Source/OCMock.xcodeproj; sourceTree = "<group>"; };
 		45EC4D1118CDA3BA00D95C17 /* SSVCRequestRunner_Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSVCRequestRunner_Internal.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -222,7 +226,9 @@
 				4540F35818C46CAF00BA7575 /* SSVCTests-Info.plist */,
 				4540F35918C46CAF00BA7575 /* InfoPlist.strings */,
 				456F295618CE54D400E9F857 /* invalidResponse.json */,
-				456F295C18CE575A00E9F857 /* validResponse.json */,
+				456F295C18CE575A00E9F857 /* validFullResponse.json */,
+				452EB38F1921F0550007A43D /* validFullResponse2.json */,
+				452EB3951921F0C20007A43D /* validResponseNoMinimumRequiredVersion.json */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -341,8 +347,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				456F295718CE54D400E9F857 /* invalidResponse.json in Resources */,
-				456F295D18CE575A00E9F857 /* validResponse.json in Resources */,
+				452EB3961921F0C20007A43D /* validResponseNoMinimumRequiredVersion.json in Resources */,
+				456F295D18CE575A00E9F857 /* validFullResponse.json in Resources */,
 				4540F35B18C46CAF00BA7575 /* InfoPlist.strings in Resources */,
+				452EB3901921F0550007A43D /* validFullResponse2.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
