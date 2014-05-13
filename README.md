@@ -1,7 +1,5 @@
 # SSVC - A simple version checking client for iOS
 
-## [This is Alpha Software. Expect frequent changes!]
-
 [![Build Status](https://travis-ci.org/mrtom/SSVC.png)](https://travis-ci.org/mrtom/SSVC)
 
 ## What is SSVC?
