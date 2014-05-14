@@ -25,6 +25,9 @@ NSString *const SSVCLatestVersionKey = @"SSVCLatestVersionKey";
 NSString *const SSVCLatestVersionNumber = @"SSVCLatestVersionNumber";
 NSString *const SSVCLatestVersionAvailableSince = @"SSVCLatestVersionAvailableSince";
 
+NSString *const SSVCLocaleLanguageCode = @"SSVCLanguage";
+NSString *const SSVCLocaleCountryCode = @"SSVCCountry";
+
 NSString *const SSVCResponseFromLastVersionCheck = @"SSVCResponseFromLastVersionCheck";
 
 NSString *const SSVCNoVersionKey = @"0.0.0";

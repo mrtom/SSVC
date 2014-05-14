@@ -53,6 +53,8 @@ The primary class of SSVC is called... SSVC! For the most basic usage:
 * This will cause SSVC to send an HTTP GET request to the server you specified above with the following parameters:
     * ```SSVCLatestVersionKey``` - The version key of the application currently running, i.e. 1.0
     * ```SSVCLatestVersionNumber``` - The vesrion (build) number of the application currently running, i.e. 16809984
+    * ```SSVCLanguage``` - The `NSLocaleLanguageCode` returned from `NSLocale`
+    * ```SSVCCountry``` - The `NSLocaleCounryCode` returned from `NSLocale`
     * ```SSVCClientProtocolVersion``` - The version of the protocol used by SSVC, currently 1
 
 SSVC expects your server to return a simple JSON object, with the following format. Note, all fields are optional:

@@ -18,6 +18,8 @@ static NSUInteger const kSSVCClientProtocolVersionNumber = 1;
 @property (nonatomic, strong, readonly) NSString *baseUrl;
 @property (nonatomic, strong, readonly) NSString *versionKey;
 @property (nonatomic, strong, readonly) NSNumber *versionNumber;
+@property (nonatomic, strong, readonly) NSString *languageCode;
+@property (nonatomic, strong, readonly) NSString *countryCode;
 @property (nonatomic, strong, readonly) NSString *seperator;
 
 @end
@@ -42,6 +44,10 @@ static NSUInteger const kSSVCClientProtocolVersionNumber = 1;
     _versionKey = versionKey;
     _versionNumber = versionNumber;
     
+    NSLocale *locale = [NSLocale currentLocale];
+    _languageCode = [locale objectForKey:NSLocaleLanguageCode];
+    _countryCode = [locale objectForKey:NSLocaleCountryCode];
+    
     NSRange questionMarkRange = [_baseUrl rangeOfString:@"?" options:NSBackwardsSearch];
     _seperator = questionMarkRange.location == NSNotFound ? @"?" : @"&";
   }
@@ -51,10 +57,12 @@ static NSUInteger const kSSVCClientProtocolVersionNumber = 1;
 - (NSURL *)url
 {
   
-  return [NSURL URLWithString:[NSString stringWithFormat:@"%@%@%@=%@&%@=%@&%@=%@",
+  return [NSURL URLWithString:[NSString stringWithFormat:@"%@%@%@=%@&%@=%@&%@=%@&%@=%@&%@=%@",
           _baseUrl, _seperator,
           SSVCLatestVersionKey, _versionKey,
           SSVCLatestVersionNumber, _versionNumber,
+          SSVCLocaleLanguageCode, _languageCode,
+          SSVCLocaleCountryCode, _countryCode,
           kSSVCClientProtocolVersion, @(kSSVCClientProtocolVersionNumber)]];
 }
 

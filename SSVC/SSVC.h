@@ -24,6 +24,9 @@ extern NSString *const SSVCLatestVersionKey;
 extern NSString *const SSVCLatestVersionNumber;
 extern NSString *const SSVCLatestVersionAvailableSince;
 
+extern NSString *const SSVCLocaleLanguageCode;
+extern NSString *const SSVCLocaleCountryCode;
+
 extern NSString *const SSVCResponseFromLastVersionCheck;
 
 extern NSString *const SSVCNoVersionKey;
