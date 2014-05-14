@@ -20,7 +20,7 @@ static NSString *const kInvalidResponse = @"invalidResponse";
 static NSString *const kValidFullResponse = @"validFullResponse";
 static NSString *const kValidFullResponse2 = @"validFullResponse2";
 
-static NSString *const kValidResponseNoMinimumRequiredVersion = @"validResponseNoMinimumRequiredVersion";
+static NSString *const kValidResponseNoMinimumSupportedVersion = @"validResponseNoMinimumSupportedVersion";
 static NSString *const kValidResponseNoAvailableSince = @"validResponseNoAvailableSince";
 static NSString *const kValidResponseNoVersionKey = @"validResponseNoVersionKey";
 static NSString *const kValidResponseNoVersionNumber = @"validResponseNoVersionNumber";
@@ -409,7 +409,7 @@ static NSString *const kValidResponseNoVersionNumber = @"validResponseNoVersionN
   };
   
   NSBundle *testBundle = [NSBundle bundleForClass:[self class]];
-  NSURL *testResponseURL = [testBundle URLForResource:kValidResponseNoMinimumRequiredVersion withExtension:@"json"];
+  NSURL *testResponseURL = [testBundle URLForResource:kValidResponseNoMinimumSupportedVersion withExtension:@"json"];
   
   id runner = [[SSVCRequestRunner alloc] initWithCallbackURL:testResponseURL
                                                       parser:[SSVCJSONParser new]
