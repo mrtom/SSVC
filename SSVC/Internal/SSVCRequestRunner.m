@@ -14,8 +14,6 @@
 
 BOOL const kSSVCDefaultUpdateAvailable = NO;
 BOOL const kSSVCDefaultUpdateRequired = NO;
-NSUInteger const kSSVCDefaultMinimumSupportedVersionNumber = 0;
-NSString *const kSSVCDefaultLatestVersionKey = @"0.0.0";
 
 @interface SSVCRequestRunner() <NSURLConnectionDataDelegate>
 
@@ -38,8 +36,7 @@ NSString *const kSSVCDefaultLatestVersionKey = @"0.0.0";
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
     defaultDict = @{
-                    SSVCLatestVersionAvailableSince: [NSDate distantPast],
-                    SSVCLatestVersionNumber: @0
+                    SSVCLatestVersionAvailableSince: [NSDate distantPast]
                     };
   });
   return defaultDict;
@@ -159,7 +156,7 @@ NSString *const kSSVCDefaultLatestVersionKey = @"0.0.0";
                                                 error:error];
   
   if (json) {
-    NSNumber *minimumSupportedVersionNumber = json[SSVCMinimumSupportedVersionNumber] ?: @(kSSVCDefaultMinimumSupportedVersionNumber);
+    NSNumber *minimumSupportedVersionNumber = json[SSVCMinimumSupportedVersionNumber] ?: @(SSVCNoMinimumSupportedVersionNumber);
     
     NSNumber *updateAvailableSinceTime = [json objectForKey:SSVCLatestVersionAvailableSince];
     NSDate *updateAvailableSinceDate;
@@ -169,12 +166,12 @@ NSString *const kSSVCDefaultLatestVersionKey = @"0.0.0";
       updateAvailableSinceDate = defaultsDict[SSVCLatestVersionAvailableSince];
     }
     
-    NSString *latestVersionKey = json[SSVCLatestVersionKey] ?: kSSVCDefaultLatestVersionKey;
-    NSNumber *latestVersionNumber = json[SSVCLatestVersionNumber] ?: defaultsDict[SSVCLatestVersionNumber];
+    NSString *latestVersionKey = json[SSVCLatestVersionKey] ?: SSVCNoVersionKey;
+    NSNumber *latestVersionNumber = json[SSVCLatestVersionNumber] ?: @(SSVCNoVersionNumber);
     
     // Determine if update is available/required:
     BOOL updateAvailable = [self __calculateIfUpdateAvailableForVersionKey:latestVersionKey versionNumber:latestVersionNumber];
-    BOOL updateRequired = [self __calculateMfUpdateRequiredWithMinimumSupportedVersionNumber:minimumSupportedVersionNumber];
+    BOOL updateRequired = [self __calculateIfUpdateRequiredWithMinimumSupportedVersionNumber:minimumSupportedVersionNumber];
     
     response = [[SSVCResponse alloc] initWithUpdateAvailable:updateAvailable
                                                             updateRequired:updateRequired
@@ -189,10 +186,9 @@ NSString *const kSSVCDefaultLatestVersionKey = @"0.0.0";
 
 - (BOOL)__calculateIfUpdateAvailableForVersionKey:(NSString *)versionKey versionNumber:(NSNumber *)versionNumber
 {
-  NSDictionary *defaultsDict = [SSVCRequestRunner defaultObjectsDict];
   BOOL updateAvailable;
   
-  if (![versionNumber isEqual:defaultsDict[SSVCLatestVersionNumber]]) {
+  if (![versionNumber isEqualToNumber:@(SSVCNoVersionNumber)]) {
     NSNumber *currentVersionNumber = [NSNumber numberWithUnsignedInteger:CFBundleGetVersionNumber(CFBundleGetMainBundle())];
     NSComparisonResult result = [versionNumber compare:currentVersionNumber];
     
@@ -201,7 +197,7 @@ NSString *const kSSVCDefaultLatestVersionKey = @"0.0.0";
     } else {
       updateAvailable = NO;
     }
-  } else if(![versionKey isEqualToString:kSSVCDefaultLatestVersionKey]) {
+  } else if(![versionKey isEqualToString:SSVCNoVersionKey]) {
     CFTypeRef ver = CFBundleGetValueForInfoDictionaryKey(
                                                          CFBundleGetMainBundle(),
                                                          kCFBundleVersionKey);
@@ -221,12 +217,11 @@ NSString *const kSSVCDefaultLatestVersionKey = @"0.0.0";
   return updateAvailable;
 }
 
-- (BOOL)__calculateMfUpdateRequiredWithMinimumSupportedVersionNumber:(NSNumber *)minimumSupportedVersionNumber
+- (BOOL)__calculateIfUpdateRequiredWithMinimumSupportedVersionNumber:(NSNumber *)minimumSupportedVersionNumber
 {
-  NSDictionary *defaultsDict = [SSVCRequestRunner defaultObjectsDict];
   BOOL updateRequired;
   
-  if (![minimumSupportedVersionNumber isEqual:defaultsDict[SSVCMinimumSupportedVersionNumber]]) {
+  if (![minimumSupportedVersionNumber isEqualToNumber:@(SSVCNoMinimumSupportedVersionNumber)]) {
     NSNumber *currentVersionNumber = [NSNumber numberWithUnsignedInteger:CFBundleGetVersionNumber(CFBundleGetMainBundle())];
     NSComparisonResult result = [minimumSupportedVersionNumber compare:currentVersionNumber];
     

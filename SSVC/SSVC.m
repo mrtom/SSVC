@@ -27,6 +27,10 @@ NSString *const SSVCLatestVersionAvailableSince = @"SSVCLatestVersionAvailableSi
 
 NSString *const SSVCResponseFromLastVersionCheck = @"SSVCResponseFromLastVersionCheck";
 
+NSString *const SSVCNoVersionKey = @"0.0.0";
+NSUInteger const SSVCNoVersionNumber = 0;
+NSUInteger const SSVCNoMinimumSupportedVersionNumber = 0;
+
 @interface SSVC()
 
 @property (nonatomic, copy, readonly) SSVCScheduler *scheduler;

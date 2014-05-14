@@ -26,6 +26,10 @@ extern NSString *const SSVCLatestVersionAvailableSince;
 
 extern NSString *const SSVCResponseFromLastVersionCheck;
 
+extern NSString *const SSVCNoVersionKey;
+extern NSUInteger const SSVCNoVersionNumber;
+extern NSUInteger const SSVCNoMinimumSupportedVersionNumber;
+
 @interface SSVC : NSObject
 
 @property (nonatomic, strong, readonly) NSURL *callbackURL;

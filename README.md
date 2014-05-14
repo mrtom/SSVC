@@ -64,14 +64,16 @@ SSVC expects your server to return a simple JSON object, with the following form
  }
  ```
 
+Because all fields are optional, you may omit either or both of the latest version fields (`SSVCLatestVersionKey` & `SSVCLatestVersionNumber`). If you omit both, the response is not going to be very useful. If you include both, the response will transparently include both values without confirming that they are equivalent, and the version number will take precedence over the version key when determining if an update is available.
+
 ### JSON Response Definitions
 
 | Name | Description | Permitted Values/Type | Required | Default |
 | ---- | ----------- | --------------------- | -------- | ------- |
-| SSVCMinimumSupportedVersionNumber | The minimum version number of your client or API now supported. This allows you to tell the client to force an update | An Unsigned Integer | No | 0 |
+| SSVCMinimumSupportedVersionNumber | The minimum version number of your client or API now supported. This allows you to tell the client to force an update | An Unsigned Integer | No | `SSVCNoMinimumSupportedVersionNumber` (0) |
 | SSVCLatestVersionAvailableSince | The date since the most recent update was available | Any valid Unix timestamp (i.e. seconds since the epoc, January 1st 1970, UTC - http://en.wikipedia.org/wiki/Unix_timestamp) | No | ```[NSDate distantPast]``` |
-| SSVCLatestVersionKey | The iOS Version Key for your latest build, as found in your App bundle | A string of the form X.Y.Z, for X = [0-99] and Y & Z = [0-9] | No | 0.0.0 |
-| SSVCLatestVersionNumber | The iOS Version Number for your latest build, as found in your App bundle | An Unsigned Integer | No | 0 |
+| SSVCLatestVersionKey | The iOS Version Key for your latest build, as found in your App bundle | A string of the form X.Y.Z, for X = [0-99] and Y & Z = [0-9] | No | `SSVCNoVersionKey` ("0.0.0") |
+| SSVCLatestVersionNumber | The iOS Version Number for your latest build, as found in your App bundle | An Unsigned Integer | No | `SSVCNoVersionNumber` (0) |
 
 ### SSVCResponse
 Once SSVC has received the response from your server, it constructs an ```SSVCResponse``` object. This object wraps up the JSON response in a more friendly Objective-C API then saves it to disk using ```NSUserDefaults```, under the key ```SSVCResponseFromLastVersionCheck```. This probably isn't the simplest way of accessing the response - see 'Customising Usage' below for more information on how to register for updates when a new response is available.
