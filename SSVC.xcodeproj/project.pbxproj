@@ -34,6 +34,7 @@
 		457DA049192365F2000F49C1 /* validResponseNoAvailableSince.json in Resources */ = {isa = PBXBuildFile; fileRef = 457DA048192365F2000F49C1 /* validResponseNoAvailableSince.json */; };
 		457DA04F19236904000F49C1 /* validResponseNoVersionNumber.json in Resources */ = {isa = PBXBuildFile; fileRef = 457DA04E19236904000F49C1 /* validResponseNoVersionNumber.json */; };
 		457DA0531923693F000F49C1 /* validResponseNoVersionKey.json in Resources */ = {isa = PBXBuildFile; fileRef = 457DA0521923693F000F49C1 /* validResponseNoVersionKey.json */; };
+		45C1C7C119282D33006E290C /* SSVCResponseTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 45C1C7C019282D33006E290C /* SSVCResponseTests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -118,6 +119,7 @@
 		457DA048192365F2000F49C1 /* validResponseNoAvailableSince.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = validResponseNoAvailableSince.json; sourceTree = "<group>"; };
 		457DA04E19236904000F49C1 /* validResponseNoVersionNumber.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = validResponseNoVersionNumber.json; sourceTree = "<group>"; };
 		457DA0521923693F000F49C1 /* validResponseNoVersionKey.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = validResponseNoVersionKey.json; sourceTree = "<group>"; };
+		45C1C7C019282D33006E290C /* SSVCResponseTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSVCResponseTests.m; sourceTree = "<group>"; };
 		45EC4D1118CDA3BA00D95C17 /* SSVCRequestRunner_Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSVCRequestRunner_Internal.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -221,6 +223,7 @@
 			children = (
 				4512D12B18C9073400F1C3F2 /* SSVCRequestRunnerTests.m */,
 				4512D12E18C9078400F1C3F2 /* SSVCURLGeneratorTests.m */,
+				45C1C7C019282D33006E290C /* SSVCResponseTests.m */,
 				4540F35718C46CAF00BA7575 /* Supporting Files */,
 			);
 			path = SSVCTests;
@@ -389,6 +392,7 @@
 			files = (
 				4512D12C18C9073400F1C3F2 /* SSVCRequestRunnerTests.m in Sources */,
 				4512D12F18C9078400F1C3F2 /* SSVCURLGeneratorTests.m in Sources */,
+				45C1C7C119282D33006E290C /* SSVCResponseTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

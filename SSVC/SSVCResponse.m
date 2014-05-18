@@ -82,9 +82,12 @@ minimumSupportedVersionNumber:(NSNumber *)minimumSupportedVersionNumber
   NSUInteger updateAvailableSinceHash = [_updateAvailableSince hash];
   NSUInteger versionKeyHash = [_versionKey hash];
   NSUInteger versionNumberHash = [_versionNumber hash];
-  NSUInteger createdDateHash = [_createdDate hash];
   
-  return updateAvailableHash ^ updateRequiredHash ^ minimumSupportedVersionNumberHash ^ updateAvailableSinceHash ^ versionKeyHash ^ versionNumberHash ^ createdDateHash;
+  // We don't includle created date here, because we don't care about that for equality.
+  // We want two objects to be considered equal if the values of the response is equal
+  //NSUInteger createdDateHash = [_createdDate hash];
+  
+  return updateAvailableHash ^ updateRequiredHash ^ minimumSupportedVersionNumberHash ^ updateAvailableSinceHash ^ versionKeyHash ^ versionNumberHash;
 }
 
 - (BOOL)isEqual:(id)object
@@ -97,7 +100,9 @@ minimumSupportedVersionNumber:(NSNumber *)minimumSupportedVersionNumber
   if (![_updateAvailableSince isEqual:[object updateAvailableSince]]) return NO;
   if (![_versionKey isEqualToString:[object versionKey]]) return NO;
   if (![_versionNumber isEqualToNumber:[object versionNumber]]) return NO;
-  if (![_createdDate isEqualToDate:[object createdDate]]) return NO;
+  
+  // Ignore created date. See [self hash] for rationale
+  //if (![_createdDate isEqualToDate:[object createdDate]]) return NO;
   
   return YES;
 }
