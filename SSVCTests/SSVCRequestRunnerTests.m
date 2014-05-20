@@ -12,7 +12,6 @@
 
 #import "SSVCJSONParser.h"
 #import "SSVCRequestRunner.h"
-#import "SSVCRequestRunner_Internal.h"
 #import "SSVCURLConnection.h"
 #import "SSVCResponseParserProtocol.h"
 
@@ -62,7 +61,6 @@ static NSString *const kValidResponseNoVersionNumber = @"validResponseNoVersionN
   id runner = [[SSVCRequestRunner alloc] initWithCallbackURL:testResponseURL
                                                       parser:[SSVCJSONParser new]
                                                    scheduler:nil
-                                               lastCheckDate:[NSDate distantPast]
                                                      success:success
                                                      failure:failure];
   [runner checkVersion];
@@ -96,7 +94,6 @@ static NSString *const kValidResponseNoVersionNumber = @"validResponseNoVersionN
   id runner = [[SSVCRequestRunner alloc] initWithCallbackURL:testResponseURL
                                                       parser:[SSVCJSONParser new]
                                                    scheduler:nil
-                                               lastCheckDate:[NSDate distantPast]
                                                      success:success
                                                      failure:failure];
   [runner checkVersion];
@@ -132,7 +129,6 @@ static NSString *const kValidResponseNoVersionNumber = @"validResponseNoVersionN
   id runner = [[SSVCRequestRunner alloc] initWithCallbackURL:testResponseURL
                                                       parser:mockJSONParser
                                                    scheduler:nil
-                                               lastCheckDate:[NSDate distantPast]
                                                      success:success
                                                      failure:failure];
   [runner checkVersion];
@@ -170,9 +166,7 @@ static NSString *const kValidResponseNoVersionNumber = @"validResponseNoVersionN
   
   id runner = [[SSVCRequestRunner alloc] initWithCallbackURL:testResponseURL
                                                       parser:[SSVCJSONParser new]
-                                                   scheduler:nil
-                                               lastCheckDate:[NSDate distantPast]
-                                                     success:success
+                                                   scheduler:nil                                                     success:success
                                                      failure:failure];
   [runner checkVersion];
   
@@ -207,7 +201,6 @@ static NSString *const kValidResponseNoVersionNumber = @"validResponseNoVersionN
   id runner = [[SSVCRequestRunner alloc] initWithCallbackURL:testResponseURL
                                                       parser:mockJSONParser
                                                    scheduler:nil
-                                               lastCheckDate:[NSDate distantPast]
                                                      success:success
                                                      failure:failure];
   [runner checkVersion];
@@ -247,7 +240,6 @@ static NSString *const kValidResponseNoVersionNumber = @"validResponseNoVersionN
   id runner = [[SSVCRequestRunner alloc] initWithCallbackURL:testResponseURL
                                                       parser:mockJSONParser
                                                    scheduler:nil
-                                               lastCheckDate:[NSDate distantPast]
                                                      success:success
                                                      failure:failure];
   [runner checkVersion];
@@ -292,7 +284,6 @@ static NSString *const kValidResponseNoVersionNumber = @"validResponseNoVersionN
   id runner = [[SSVCRequestRunner alloc] initWithCallbackURL:testResponseURL
                                                       parser:[SSVCJSONParser new]
                                                    scheduler:nil
-                                               lastCheckDate:[NSDate distantPast]
                                                      success:success
                                                      failure:failure];
   [runner checkVersion];
@@ -332,7 +323,6 @@ static NSString *const kValidResponseNoVersionNumber = @"validResponseNoVersionN
   id runner = [[SSVCRequestRunner alloc] initWithCallbackURL:testResponseURL
                                                       parser:[SSVCJSONParser new]
                                                    scheduler:nil
-                                               lastCheckDate:[NSDate distantPast]
                                                      success:success
                                                      failure:failure];
   [runner checkVersion];
@@ -373,7 +363,6 @@ static NSString *const kValidResponseNoVersionNumber = @"validResponseNoVersionN
   id runner = [[SSVCRequestRunner alloc] initWithCallbackURL:testResponseURL
                                                       parser:[SSVCJSONParser new]
                                                    scheduler:nil
-                                               lastCheckDate:[NSDate distantPast]
                                                      success:success
                                                      failure:failure];
   [runner checkVersion];
@@ -414,7 +403,6 @@ static NSString *const kValidResponseNoVersionNumber = @"validResponseNoVersionN
   id runner = [[SSVCRequestRunner alloc] initWithCallbackURL:testResponseURL
                                                       parser:[SSVCJSONParser new]
                                                    scheduler:nil
-                                               lastCheckDate:[NSDate distantPast]
                                                      success:success
                                                      failure:failure];
   [runner checkVersion];
@@ -454,7 +442,6 @@ static NSString *const kValidResponseNoVersionNumber = @"validResponseNoVersionN
   id runner = [[SSVCRequestRunner alloc] initWithCallbackURL:testResponseURL
                                                       parser:[SSVCJSONParser new]
                                                    scheduler:nil
-                                               lastCheckDate:[NSDate distantPast]
                                                      success:success
                                                      failure:failure];
   [runner checkVersion];
@@ -494,7 +481,6 @@ static NSString *const kValidResponseNoVersionNumber = @"validResponseNoVersionN
   id runner = [[SSVCRequestRunner alloc] initWithCallbackURL:testResponseURL
                                                       parser:[SSVCJSONParser new]
                                                    scheduler:nil
-                                               lastCheckDate:[NSDate distantPast]
                                                      success:success
                                                      failure:failure];
   [runner checkVersion];
@@ -534,7 +520,6 @@ static NSString *const kValidResponseNoVersionNumber = @"validResponseNoVersionN
   id runner = [[SSVCRequestRunner alloc] initWithCallbackURL:testResponseURL
                                                       parser:[SSVCJSONParser new]
                                                    scheduler:nil
-                                               lastCheckDate:[NSDate distantPast]
                                                      success:success
                                                      failure:failure];
   [runner checkVersion];

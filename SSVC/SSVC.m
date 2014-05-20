@@ -34,7 +34,7 @@ NSString *const SSVCNoVersionKey = @"0.0.0";
 NSUInteger const SSVCNoVersionNumber = 0;
 NSUInteger const SSVCNoMinimumSupportedVersionNumber = 0;
 
-@interface SSVC()
+@interface SSVC() <SSVCSchedulerDelegate>
 
 @property (nonatomic, copy, readonly) SSVCScheduler *scheduler;
 @property (nonatomic, copy, readonly) ssvc_fetch_success_block_t success;
@@ -88,6 +88,7 @@ NSUInteger const SSVCNoMinimumSupportedVersionNumber = 0;
     [self __versionFromBundle];
     
     _scheduler = scheduler;
+    _scheduler.delegate = self;
     _success = [success copy];
     _failure = [failure copy];
     
@@ -110,10 +111,8 @@ NSUInteger const SSVCNoMinimumSupportedVersionNumber = 0;
                                initWithCallbackURL:_callbackURL
                                parser:[[SSVCJSONParser alloc] init]
                                scheduler:_scheduler
-                               lastCheckDate:[self __lastVersionCheckDateFromUserDefaults]
                                success:_success
                                failure:_failure];
-  _scheduler.delegate = runner;
   
   [runner checkVersion];
 }
@@ -147,6 +146,12 @@ NSUInteger const SSVCNoMinimumSupportedVersionNumber = 0;
   _versionNumber = [NSNumber numberWithUnsignedInteger:CFBundleGetVersionNumber(CFBundleGetMainBundle())];
 }
 
+#pragma mark - SSVCSchedulerDelegate methods
+
+- (void)periodElapsedForScheduler:(SSVCScheduler *)scheduler
+{
+  [self checkVersion];
+}
 
 
 @end

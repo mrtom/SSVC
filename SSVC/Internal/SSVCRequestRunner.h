@@ -11,19 +11,17 @@
 #import "SSVC.h"
 #import "SSVCResponse.h"
 #import "SSVCURLConnection.h"
-#import "SSVCSchedulerDelegate.h"
 
 @protocol SSVCResponseParserProtocol;
 
 @class SSVCScheduler;
 
-@interface SSVCRequestRunner : NSObject <SSVCSchedulerDelegate, NSURLConnectionDataDelegate>
+@interface SSVCRequestRunner : NSObject <NSURLConnectionDataDelegate>
 
 /// Designated initialiser
 - (id)initWithCallbackURL:(NSURL *)callback
                 parser:(id<SSVCResponseParserProtocol>)parser
                scheduler:(SSVCScheduler *)scheduler
-           lastCheckDate:(NSDate *)lastCheckDate
                  success:(ssvc_fetch_success_block_t)success
                  failure:(ssvc_fetch_failure_block_t)failure;
 

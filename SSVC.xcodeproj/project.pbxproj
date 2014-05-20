@@ -18,6 +18,7 @@
 		452F369318C53041001EE399 /* SSVCResponse.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4540F36618C4746B00BA7575 /* SSVCResponse.h */; };
 		452F369418C53041001EE399 /* SSVCScheduler.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 452F367218C51BCC001EE399 /* SSVCScheduler.h */; };
 		452F369518C53041001EE399 /* SSVCURLConnection.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4540F36918C49ADA00BA7575 /* SSVCURLConnection.h */; };
+		45301B1F1928376300615CB4 /* SSVCSchedulerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 45301B1E1928376300615CB4 /* SSVCSchedulerTests.m */; };
 		4540F34118C46CAF00BA7575 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4540F34018C46CAF00BA7575 /* Foundation.framework */; };
 		4540F34618C46CAF00BA7575 /* SSVC.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4540F34518C46CAF00BA7575 /* SSVC.h */; };
 		4540F34818C46CAF00BA7575 /* SSVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4540F34718C46CAF00BA7575 /* SSVC.m */; };
@@ -99,6 +100,7 @@
 		452F367218C51BCC001EE399 /* SSVCScheduler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSVCScheduler.h; sourceTree = "<group>"; };
 		452F367318C51BCC001EE399 /* SSVCScheduler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSVCScheduler.m; sourceTree = "<group>"; };
 		452F367518C51E25001EE399 /* SSVCSchedulerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SSVCSchedulerDelegate.h; sourceTree = "<group>"; };
+		45301B1E1928376300615CB4 /* SSVCSchedulerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSVCSchedulerTests.m; sourceTree = "<group>"; };
 		4540F33D18C46CAF00BA7575 /* libSSVC.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSSVC.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		4540F34018C46CAF00BA7575 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		4540F34418C46CAF00BA7575 /* SSVC-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SSVC-Prefix.pch"; sourceTree = "<group>"; };
@@ -119,8 +121,8 @@
 		457DA048192365F2000F49C1 /* validResponseNoAvailableSince.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = validResponseNoAvailableSince.json; sourceTree = "<group>"; };
 		457DA04E19236904000F49C1 /* validResponseNoVersionNumber.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = validResponseNoVersionNumber.json; sourceTree = "<group>"; };
 		457DA0521923693F000F49C1 /* validResponseNoVersionKey.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = validResponseNoVersionKey.json; sourceTree = "<group>"; };
+		45A95F74192B9C0B00A244DA /* SSVCScheduler+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SSVCScheduler+Internal.h"; sourceTree = "<group>"; };
 		45C1C7C019282D33006E290C /* SSVCResponseTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSVCResponseTests.m; sourceTree = "<group>"; };
-		45EC4D1118CDA3BA00D95C17 /* SSVCRequestRunner_Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSVCRequestRunner_Internal.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -150,8 +152,8 @@
 		4512D12118C8FE8000F1C3F2 /* Internal */ = {
 			isa = PBXGroup;
 			children = (
+				45A95F74192B9C0B00A244DA /* SSVCScheduler+Internal.h */,
 				4512D11A18C8F62200F1C3F2 /* SSVCRequestRunner.h */,
-				45EC4D1118CDA3BA00D95C17 /* SSVCRequestRunner_Internal.h */,
 				4512D11B18C8F62200F1C3F2 /* SSVCRequestRunner.m */,
 				4512D12018C8F79E00F1C3F2 /* SSVCResponseParserProtocol.h */,
 				4512D11D18C8F6ED00F1C3F2 /* SSVCJSONParser.h */,
@@ -224,6 +226,7 @@
 				4512D12B18C9073400F1C3F2 /* SSVCRequestRunnerTests.m */,
 				4512D12E18C9078400F1C3F2 /* SSVCURLGeneratorTests.m */,
 				45C1C7C019282D33006E290C /* SSVCResponseTests.m */,
+				45301B1E1928376300615CB4 /* SSVCSchedulerTests.m */,
 				4540F35718C46CAF00BA7575 /* Supporting Files */,
 			);
 			path = SSVCTests;
@@ -390,6 +393,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				45301B1F1928376300615CB4 /* SSVCSchedulerTests.m in Sources */,
 				4512D12C18C9073400F1C3F2 /* SSVCRequestRunnerTests.m in Sources */,
 				4512D12F18C9078400F1C3F2 /* SSVCURLGeneratorTests.m in Sources */,
 				45C1C7C119282D33006E290C /* SSVCResponseTests.m in Sources */,

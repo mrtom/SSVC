@@ -20,7 +20,6 @@ BOOL const kSSVCDefaultUpdateRequired = NO;
 @property (nonatomic, strong, readonly) NSURL *callbackURL;
 @property (nonatomic, strong, readonly) id<SSVCResponseParserProtocol>parser;
 @property (nonatomic, strong, readonly) SSVCScheduler *scheduler;
-@property (nonatomic, strong, readonly) NSDate *lastCheckDate;
 @property (nonatomic, copy, readonly) ssvc_fetch_success_block_t success;
 @property (nonatomic, copy, readonly) ssvc_fetch_failure_block_t failure;
 
@@ -54,7 +53,6 @@ BOOL const kSSVCDefaultUpdateRequired = NO;
 - (id)initWithCallbackURL:(NSURL *)callback
                 parser:(id<SSVCResponseParserProtocol>)parser
                scheduler:(SSVCScheduler *)scheduler
-           lastCheckDate:(NSDate *)lastCheckDate
                  success:(ssvc_fetch_success_block_t)success
                  failure:(ssvc_fetch_failure_block_t)failure;
 {
@@ -62,7 +60,6 @@ BOOL const kSSVCDefaultUpdateRequired = NO;
     _callbackURL = callback;
     _parser = parser;
     _scheduler = scheduler;
-    _lastCheckDate = lastCheckDate;
     _success = [success copy];
     _failure = [failure copy];
   }
@@ -86,7 +83,10 @@ BOOL const kSSVCDefaultUpdateRequired = NO;
       [strongSelf __updateLastCheckDate:now];
       SSVCResponse *response = [strongSelf __buildResponseFromJSONData:responseData error:&error];
       [strongSelf __performCallbacksWithResponse:response error:error];
-      [strongSelf __restartScheduler];
+      
+      dispatch_async(dispatch_get_main_queue(), ^{
+        [strongSelf __restartScheduler];
+      });
     }
   };
   connection.onError = ^(NSError *error){
@@ -94,7 +94,9 @@ BOOL const kSSVCDefaultUpdateRequired = NO;
     if (strongSelf) {
       [strongSelf __updateLastCheckDate:[NSDate date]];
       [strongSelf __performCallbacksWithResponse:nil error:error];
-      [strongSelf __restartScheduler];
+      dispatch_async(dispatch_get_main_queue(), ^{
+        [strongSelf __restartScheduler];
+      });
     }
   };
   
@@ -131,7 +133,10 @@ BOOL const kSSVCDefaultUpdateRequired = NO;
 
 - (void)__restartScheduler
 {
-  [_scheduler startSchedulingFromLastCheckDate:_lastCheckDate];
+  NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+  NSDate *lastCheckDate = [userDefaults objectForKey:SSVCDateOfLastVersionCheck];
+  
+  [_scheduler startSchedulingFromLastCheckDate:lastCheckDate];
 }
 
 - (void)__updateLastCheckDate:(NSDate *)lastCheckDate
@@ -270,13 +275,6 @@ BOOL const kSSVCDefaultUpdateRequired = NO;
     c.onError(error);
     c.onError = nil;
   }
-}
-
-#pragma mark - SSVCSchedulerDelegate methods
-
-- (void)periodElapsedForScheduler:(SSVCScheduler *)scheduler
-{
-  [self checkVersion];
 }
 
 @end

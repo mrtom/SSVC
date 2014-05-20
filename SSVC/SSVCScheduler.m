@@ -41,6 +41,8 @@ static const NSTimeInterval kSecondsPerWeek = 7 * kSecondsPerDay;
 
 - (void)startSchedulingFromLastCheckDate:(NSDate *)lastCheckDate
 {
+  NSAssert([NSThread isMainThread], @"Must be called on the main thread");
+  
   if (_versionCheckTimer) {
     [_versionCheckTimer invalidate];
   }
@@ -57,15 +59,15 @@ static const NSTimeInterval kSecondsPerWeek = 7 * kSecondsPerDay;
       break;
     case SSVCSchedulerScheduleHourly:
       maximumValidLastDate = [NSDate dateWithTimeInterval:-kSecondsPerHour sinceDate:now];
-      minimumValidNextDate = [NSDate dateWithTimeInterval:kSecondsPerHour sinceDate:now];
+      minimumValidNextDate = [NSDate dateWithTimeInterval:kSecondsPerHour sinceDate:lastCheckDate];
       break;
     case SSVCSchedulerScheduleDaily:
       maximumValidLastDate = [NSDate dateWithTimeInterval:-kSecondsPerDay sinceDate:now];
-      minimumValidNextDate = [NSDate dateWithTimeInterval:kSecondsPerDay sinceDate:now];
+      minimumValidNextDate = [NSDate dateWithTimeInterval:kSecondsPerDay sinceDate:lastCheckDate];
       break;
     case SSVCSchedulerScheduleWeekly:
       maximumValidLastDate = [NSDate dateWithTimeInterval:-kSecondsPerWeek sinceDate:now];
-      minimumValidNextDate = [NSDate dateWithTimeInterval:kSecondsPerWeek sinceDate:now];
+      minimumValidNextDate = [NSDate dateWithTimeInterval:kSecondsPerWeek sinceDate:lastCheckDate];
       break;
     case SSVCSchedulerScheduleMonthly:
       usersCalendar = [[NSLocale currentLocale] objectForKey:NSLocaleCalendar];
@@ -75,7 +77,7 @@ static const NSTimeInterval kSecondsPerWeek = 7 * kSecondsPerDay;
       maximumValidLastDate = [usersCalendar dateByAddingComponents:offsetComponents toDate:now options:0];
       
       [offsetComponents setMonth:1];
-      minimumValidNextDate = [usersCalendar dateByAddingComponents:offsetComponents toDate:now options:0];
+      minimumValidNextDate = [usersCalendar dateByAddingComponents:offsetComponents toDate:lastCheckDate options:0];
       break;
   }
   
@@ -84,13 +86,16 @@ static const NSTimeInterval kSecondsPerWeek = 7 * kSecondsPerDay;
     [self __scheduleVersionCheck];
   } else {
     // Last check date is after the maximum valid last date, so we must schedule a check
-    _versionCheckTimer = [[NSTimer alloc] initWithFireDate:minimumValidNextDate
-                                                  interval:0
-                                                    target:self
-                                                  selector:@selector(__scheduleVersionCheck)
-                                                  userInfo:Nil
-                                                   repeats:NO];
-    [[NSRunLoop mainRunLoop] addTimer:_versionCheckTimer forMode:NSRunLoopCommonModes];
+    // We want to schedule this for the time given by minimumValidNextDate, but because
+    // we want to use scheduledTimerWithTimeInterval (as we can stub it from the tests)
+    // we must re-calculate an NSTimeInterval :(
+    NSTimeInterval fireInterval = [minimumValidNextDate timeIntervalSinceDate:now];
+    
+    _versionCheckTimer = [NSTimer scheduledTimerWithTimeInterval:fireInterval
+                                                          target:self
+                                                        selector:@selector(__scheduleVersionCheck)
+                                                        userInfo:Nil
+                                                         repeats:NO];
   }
 }
 
