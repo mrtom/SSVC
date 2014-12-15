@@ -47,8 +47,8 @@
   NSUInteger numberOfOccurancesOfA = [self numberOfOccurancesOfNeedle:@"&" inHaystack:urlString];
   
   XCTAssertFalse(range.location == NSNotFound, @"A ? must exist in the URL");
-  XCTAssertEqual(@1, @(numberOfOccurancesOfQM), @"Only one ? character should be found together");
-  XCTAssertEqual(@4, @(numberOfOccurancesOfA), @"4 & characters should be found all together");
+  XCTAssertEqual(1, numberOfOccurancesOfQM, @"Only one ? character should be found together");
+  XCTAssertEqual(4, numberOfOccurancesOfA, @"4 & characters should be found all together");
 }
 
 - (void)testURLGeneratorAppendsAmpersandForSeperatorWhenBaseURLAlreadyContainsGETParams
@@ -69,8 +69,8 @@
   NSUInteger numberOfOccurancesOfA = [self numberOfOccurancesOfNeedle:@"&" inHaystack:urlString];
   
   XCTAssertFalse(range.location == NSNotFound, @"A & must exist in the URL");
-  XCTAssertEqual(@1, @(numberOfOccurancesOfQM), @"Only one ? character should be found together");
-  XCTAssertEqual(@5, @(numberOfOccurancesOfA), @"5 & characters should be found all together");
+  XCTAssertEqual(1, numberOfOccurancesOfQM, @"Only one ? character should be found together");
+  XCTAssertEqual(5, numberOfOccurancesOfA, @"5 & characters should be found all together");
 }
 
 - (void)testURLGeneratorContainsVersionValueForVersionKey
@@ -91,7 +91,7 @@
   NSUInteger numberOfOccurances = [self numberOfOccurancesOfNeedle:getKV inHaystack:urlString];
   
   XCTAssertFalse(range.location == NSNotFound, @"Key-value pair must occur in GET params");
-  XCTAssertEqual(@1, @(numberOfOccurances), @"Only one kv pair should be found together");
+  XCTAssertEqual(1, numberOfOccurances, @"Only one kv pair should be found together");
 }
 
 - (void)testURLGeneratorContainsVersionNumberValueForVersionNumberKey
@@ -112,7 +112,7 @@
   NSUInteger numberOfOccurances = [self numberOfOccurancesOfNeedle:getKV inHaystack:urlString];
   
   XCTAssertFalse(range.location == NSNotFound, @"Key-value pair must occur in GET params");
-  XCTAssertEqual(@1, @(numberOfOccurances), @"Only one kv pair should be found together");
+  XCTAssertEqual(1, numberOfOccurances, @"Only one kv pair should be found together");
 }
 
 - (void)testURLGeneratorContainsVersionValueForVersionKeyWhenBaseURLAlreadyContainsGETParams
@@ -133,7 +133,7 @@
   NSUInteger numberOfOccurances = [self numberOfOccurancesOfNeedle:getKV inHaystack:urlString];
   
   XCTAssertFalse(range.location == NSNotFound, @"Key-value pair must occur in GET params");
-  XCTAssertEqual(@1, @(numberOfOccurances), @"Only one kv pair should be found together");
+  XCTAssertEqual(1, numberOfOccurances, @"Only one kv pair should be found together");
 }
 
 - (void)testURLGeneratorContainsVersionNumberValueForVersionNumberKeyWhenBaseURLAlreadyContainsGETParams
@@ -154,7 +154,7 @@
   NSUInteger numberOfOccurances = [self numberOfOccurancesOfNeedle:getKV inHaystack:urlString];
   
   XCTAssertFalse(range.location == NSNotFound, @"Key-value pair must occur in GET params");
-  XCTAssertEqual(@1, @(numberOfOccurances), @"Only one kv pair should be found together");
+  XCTAssertEqual(1, numberOfOccurances, @"Only one kv pair should be found together");
 }
 
 - (void)testURLGeneratorContainsLanguageCode
@@ -179,7 +179,7 @@
   NSUInteger numberOfOccurances = [self numberOfOccurancesOfNeedle:languageCodeKV inHaystack:urlString];
   
   XCTAssertFalse(range.location == NSNotFound, @"Language code must occure in GET params");
-  XCTAssertEqual(@1, @(numberOfOccurances), @"Language code must only occur once in GET params");
+  XCTAssertEqual(1, numberOfOccurances, @"Language code must only occur once in GET params");
 }
 
 - (void)testURLGeneratorContainsLocaleCode
@@ -204,7 +204,7 @@
   NSUInteger numberOfOccurances = [self numberOfOccurancesOfNeedle:countryCode inHaystack:urlString];
   
   XCTAssertFalse(range.location == NSNotFound, @"Country code must occure in GET params");
-  XCTAssertEqual(@1, @(numberOfOccurances), @"Country code must only occur once in GET params");
+  XCTAssertEqual(1, numberOfOccurances, @"Country code must only occur once in GET params");
 }
 
 #pragma mark - Utility methods
@@ -218,10 +218,10 @@
   NSUInteger allCount = [self numberOfOccurancesOfNeedle:@"all" inHaystack:haystack];
   NSUInteger pieCount = [self numberOfOccurancesOfNeedle:@"pie" inHaystack:haystack];
   
-  XCTAssertEqual(@0, @(flibbleCount), @"There is no 'flibble'");
-  XCTAssertEqual(@1, @(howCount), @"There is one 'how'");
-  XCTAssertEqual(@1, @(allCount), @"There is one 'all'");
-  XCTAssertEqual(@4, @(pieCount), @"There are lots of pies. 4 to be precise. Pie is tasty!");
+  XCTAssertEqual(0, flibbleCount, @"There is no 'flibble'");
+  XCTAssertEqual(1, howCount, @"There is one 'how'");
+  XCTAssertEqual(1, allCount, @"There is one 'all'");
+  XCTAssertEqual(4, pieCount, @"There are lots of pies. 4 to be precise. Pie is tasty!");
 }
 
 - (NSUInteger)numberOfOccurancesOfNeedle:(NSString *)needle inHaystack:(NSString *)haystack

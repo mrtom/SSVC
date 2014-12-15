@@ -183,7 +183,7 @@ static NSString *const kValidResponseNoVersionNumber = @"validResponseNoVersionN
   [[[mockJSONParser stub] andReturn:nil] parseResponseFromData:[OCMArg any] error:((NSError * __autoreleasing *)[OCMArg anyPointer])];
   
   NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-  id savedResponseBefore = [userDefaults objectForKey:SSVCResponseFromLastVersionCheck];
+  NSData *savedResponseBefore = [userDefaults objectForKey:SSVCResponseFromLastVersionCheck];
   
   __block BOOL waitingForBlock = YES;
   
@@ -211,9 +211,9 @@ static NSString *const kValidResponseNoVersionNumber = @"validResponseNoVersionN
                              beforeDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
   }
   
-  id savedResponseAfter = [userDefaults objectForKey:SSVCResponseFromLastVersionCheck];
+  NSData *savedResponseAfter = [userDefaults objectForKey:SSVCResponseFromLastVersionCheck];
   
-  XCTAssertEqual(savedResponseBefore, savedResponseAfter, @"Response should not be saved after unsuccessful fetch");
+  XCTAssertTrue([savedResponseBefore isEqualToData:savedResponseAfter], @"Response should not be saved after unsuccessful fetch");
 }
 
 - (void)testLastVersionCheckDateIsUpdatedAfterUnsuccessfulFetch
