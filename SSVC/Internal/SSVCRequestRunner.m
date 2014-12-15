@@ -207,7 +207,8 @@ BOOL const kSSVCDefaultUpdateRequired = NO;
                                                          CFBundleGetMainBundle(),
                                                          kCFBundleVersionKey);
     NSString *currentVersionKey = (__bridge NSString *)ver;
-    NSComparisonResult result = [versionKey compare:currentVersionKey];
+
+    NSComparisonResult result = [versionKey compare:currentVersionKey options:NSNumericSearch];
     
     if (result == NSOrderedDescending) {
       updateAvailable = YES;
